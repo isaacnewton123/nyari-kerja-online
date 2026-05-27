@@ -8,7 +8,6 @@ import createCache from '@emotion/cache';
 import { useServerInsertedHTML } from 'next/navigation';
 import theme from './theme';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function createEmotionCache() {
   const cache = createCache({ key: 'mui' });
   cache.compat = true;
