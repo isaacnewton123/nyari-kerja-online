@@ -406,71 +406,111 @@ export default function JobDetailContent({
                   variant="body2"
                   sx={{ color: "text.secondary", mb: 3 }}
                 >
-                  Pilih metode lamaran yang tersedia di bawah ini
+                  {post.apply_links.length > 1
+                    ? `Terdapat ${post.apply_links.length} cara untuk melamar ke posisi ini. Pilih salah satu yang paling sesuai.`
+                    : "Klik tombol di bawah untuk melamar posisi ini."}
                 </Typography>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                   {post.apply_links.map((link, idx) => {
-                    let buttonText = link.method || "Apply";
+                    // --- Smart label detection ---
+                    let buttonText = link.method || "";
 
-                    // Bersihkan nama PT yang ada setelah tanda "|"
+                    // Bersihkan nama PT setelah tanda "|"
                     if (buttonText.includes("|")) {
                       buttonText = buttonText.split("|")[0].trim();
                     }
 
-                    // Gunakan teks pintar HANYA jika teks asli adalah "apply" atau kosong
+                    // Detect link type
+                    const isEmail = link.url.startsWith("mailto:");
+                    const isWhatsApp =
+                      link.url.includes("wa.me") ||
+                      link.url.includes("whatsapp.com");
+                    const isForm =
+                      link.url.includes("forms.gle") ||
+                      link.url.includes("docs.google.com/forms");
+
+                    // Fallback label jika method generic
                     if (
+                      !buttonText ||
                       buttonText.toLowerCase() === "apply" ||
-                      buttonText === ""
+                      buttonText.toLowerCase() === "apply via email"
                     ) {
-                      if (link.url.startsWith("mailto:"))
-                        buttonText = "Lamar via Email";
-                      else if (
-                        link.url.includes("wa.me") ||
-                        link.url.includes("whatsapp.com")
-                      )
-                        buttonText = "Lamar via WhatsApp";
-                      else if (
-                        link.url.includes("forms.gle") ||
-                        link.url.includes("docs.google.com/forms")
-                      )
-                        buttonText = "Isi Form Pendaftaran";
+                      if (isEmail) {
+                        const email = link.url.replace("mailto:", "");
+                        buttonText = `Kirim Lamaran ke ${email}`;
+                      } else if (isWhatsApp) buttonText = "Lamar via WhatsApp";
+                      else if (isForm) buttonText = "Isi Form Pendaftaran";
                       else buttonText = "Lamar Sekarang";
                     }
 
+                    // Pick icon
+                    const icon = isEmail ? (
+                      <EmailIcon />
+                    ) : isWhatsApp ? (
+                      <SendIcon />
+                    ) : (
+                      <SendIcon />
+                    );
+
+                    const showNumber = post.apply_links.length > 1;
+
                     return (
-                      <Button
+                      <Box
                         key={idx}
-                        variant={idx === 0 ? "contained" : "outlined"}
-                        fullWidth
-                        href={link.url}
-                        target={
-                          link.url.startsWith("http") ? "_blank" : undefined
-                        }
-                        rel={
-                          link.url.startsWith("http")
-                            ? "noopener noreferrer"
-                            : undefined
-                        }
-                        startIcon={
-                          link.url.startsWith("mailto") ? (
-                            <EmailIcon />
-                          ) : (
-                            <SendIcon />
-                          )
-                        }
-                        endIcon={
-                          link.url.startsWith("http") ? (
-                            <OpenInNewIcon sx={{ fontSize: 16 }} />
-                          ) : null
-                        }
                         sx={{
+                          p: 2.5,
                           borderRadius: 2,
-                          py: 1,
-                          px: 3,
+                          border: "1px solid",
+                          borderColor: alpha("#6C63FF", 0.2),
+                          background: alpha("#6C63FF", 0.04),
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1.5,
                         }}
                       >
-                        {buttonText}
-                      </Button>
+                        {showNumber && (
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              color: "primary.main",
+                              fontWeight: 700,
+                              textTransform: "uppercase",
+                              letterSpacing: "0.05em",
+                            }}
+                          >
+                            Opsi {idx + 1} dari {post.apply_links.length}
+                          </Typography>
+                        )}
+                        <Button
+                          variant="contained"
+                          fullWidth
+                          href={link.url}
+                          target={
+                            link.url.startsWith("http") ? "_blank" : undefined
+                          }
+                          rel={
+                            link.url.startsWith("http")
+                              ? "noopener noreferrer"
+                              : undefined
+                          }
+                          startIcon={icon}
+                          endIcon={
+                            link.url.startsWith("http") ? (
+                              <OpenInNewIcon sx={{ fontSize: 16 }} />
+                            ) : null
+                          }
+                          sx={{
+                            borderRadius: 2,
+                            py: 1.5,
+                            px: 3,
+                            fontWeight: 600,
+                            textTransform: "none",
+                            fontSize: "0.95rem",
+                          }}
+                        >
+                          {buttonText}
+                        </Button>
+                      </Box>
                     );
                   })}
                 </Box>
