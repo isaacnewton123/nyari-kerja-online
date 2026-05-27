@@ -506,6 +506,10 @@ export default function JobDetailContent({
                             fontWeight: 600,
                             textTransform: "none",
                             fontSize: "0.95rem",
+                            whiteSpace: "normal",
+                            wordBreak: "break-word",
+                            textAlign: "left",
+                            lineHeight: 1.4,
                           }}
                         >
                           {buttonText}
