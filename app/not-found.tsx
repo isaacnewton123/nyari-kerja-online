@@ -28,10 +28,10 @@ export default function NotFound() {
             p: { xs: 4, md: 6 },
             borderRadius: 4,
             textAlign: "center",
-            background: "rgba(255, 255, 255, 0.7)",
+            background: "rgba(255, 255, 255, 0.04)",
             backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 255, 255, 0.4)",
-            boxShadow: "0 10px 40px rgba(0,0,0,0.05)",
+            border: "1px solid rgba(255, 255, 255, 0.06)",
+            boxShadow: "0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(108, 99, 255, 0.08)",
           }}
         >
           <Box
@@ -39,7 +39,7 @@ export default function NotFound() {
               display: "inline-flex",
               p: 3,
               borderRadius: "50%",
-              bgcolor: "primary.50",
+              bgcolor: "rgba(108, 99, 255, 0.15)",
               color: "primary.main",
               mb: 3,
             }}
@@ -53,7 +53,7 @@ export default function NotFound() {
             sx={{
               fontWeight: 800,
               fontSize: { xs: "3rem", md: "4rem" },
-              background: "linear-gradient(45deg, #2563EB, #7C3AED)",
+              background: "linear-gradient(45deg, #00D9FF, #6C63FF)",
               backgroundClip: "text",
               textFillColor: "transparent",
               WebkitBackgroundClip: "text",
@@ -92,7 +92,7 @@ export default function NotFound() {
               </Button>
             </Link>
             
-            <Link href="/lowongan" passHref style={{ textDecoration: "none" }}>
+            <Link href="/cari" passHref style={{ textDecoration: "none" }}>
               <Button
                 variant="outlined"
                 size="large"
@@ -104,9 +104,15 @@ export default function NotFound() {
                   fontWeight: 600,
                   textTransform: "none",
                   width: "100%",
+                  borderColor: "rgba(108, 99, 255, 0.4)",
+                  color: "#F1F5F9",
+                  "&:hover": {
+                    borderColor: "#6C63FF",
+                    backgroundColor: "rgba(108, 99, 255, 0.08)",
+                  }
                 }}
               >
-                Lihat Lowongan
+                Cari Lowongan
               </Button>
             </Link>
           </Box>

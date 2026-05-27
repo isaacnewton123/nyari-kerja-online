@@ -37,10 +37,10 @@ export default function ErrorBoundary({
             p: { xs: 4, md: 6 },
             borderRadius: 4,
             textAlign: "center",
-            background: "rgba(255, 255, 255, 0.8)",
+            background: "rgba(255, 255, 255, 0.04)",
             backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 200, 200, 0.4)",
-            boxShadow: "0 10px 40px rgba(220,38,38,0.1)",
+            border: "1px solid rgba(255, 107, 107, 0.3)",
+            boxShadow: "0 10px 40px rgba(255, 107, 107, 0.15)",
           }}
         >
           <Box
@@ -48,7 +48,7 @@ export default function ErrorBoundary({
               display: "inline-flex",
               p: 3,
               borderRadius: "50%",
-              bgcolor: "error.50",
+              bgcolor: "rgba(255, 107, 107, 0.15)",
               color: "error.main",
               mb: 3,
             }}

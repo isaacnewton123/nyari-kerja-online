@@ -25,8 +25,9 @@ export default function GlobalError({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            bgcolor: "#F9FAFB",
-            fontFamily: "sans-serif",
+            bgcolor: "#0A0E1A",
+            color: "#F1F5F9",
+            fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
             textAlign: "center",
           }}
         >
@@ -34,10 +35,10 @@ export default function GlobalError({
             <Typography variant="h1" sx={{ fontSize: "5rem", mb: 2 }}>
               ⚠️
             </Typography>
-            <Typography variant="h4" sx={{ fontWeight: "bold", color: "#111827", mb: 2 }}>
+            <Typography variant="h4" sx={{ fontWeight: "bold", color: "#F1F5F9", mb: 2 }}>
               Kesalahan Sistem Kritis
             </Typography>
-            <Typography variant="body1" sx={{ color: "#4B5563", mb: 4 }}>
+            <Typography variant="body1" sx={{ color: "#94A3B8", mb: 4 }}>
               Kami memohon maaf, aplikasi mengalami kegagalan sistem secara menyeluruh. Silakan muat ulang halaman.
             </Typography>
             <Button
@@ -46,10 +47,10 @@ export default function GlobalError({
               size="large"
               startIcon={<RefreshIcon />}
               sx={{
-                bgcolor: "#2563EB",
-                color: "white",
+                bgcolor: "#6C63FF",
+                color: "#FFFFFF",
                 "&:hover": {
-                  bgcolor: "#1D4ED8",
+                  bgcolor: "#4A42D4",
                 },
                 borderRadius: 2,
                 px: 4,
