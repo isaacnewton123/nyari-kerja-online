@@ -21,6 +21,8 @@ import {
   TableHead,
   TableRow,
   alpha,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
 import Link from "next/link";
 import JobCard from "@/components/JobCard";
@@ -392,6 +394,11 @@ export default function JobDetailContent({
                   borderRadius: 2,
                 }}
               >
+                <Alert severity="warning" sx={{ mb: 4, borderRadius: 2 }}>
+                  <AlertTitle sx={{ fontWeight: 700 }}>Hati-Hati Penipuan!</AlertTitle>
+                  NyariKerja.online atau perusahaan manapun <strong>tidak pernah memungut biaya apapun</strong> (seperti biaya tiket, pelatihan, atau admin) dalam proses rekrutmen. Laporkan lowongan ini jika meminta imbalan uang.
+                </Alert>
+
                 <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
                   Cara Melamar
                 </Typography>

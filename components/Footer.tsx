@@ -78,7 +78,8 @@ export default function Footer() {
             {[
               { label: 'Beranda', href: '/' },
               { label: 'Kategori', href: '/kategori' },
-              { label: 'Tentang', href: '/tentang' },
+              { label: 'Syarat & Ketentuan', href: '/syarat-ketentuan' },
+              { label: 'Kebijakan Privasi', href: '/kebijakan-privasi' },
             ].map((link) => (
               <Typography
                 key={link.href}
