@@ -1,152 +1,105 @@
-'use client';
-
-import {
-  Box,
-  Container,
-  Typography,
-  Grid,
-  IconButton,
-  Divider,
-} from '@mui/material';
 import Link from 'next/link';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import LanguageIcon from '@mui/icons-material/Language';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram, faFacebook, faTelegram } from '@fortawesome/free-brands-svg-icons';
 
 export default function Footer() {
   return (
-    <Box
-      component="footer"
-      sx={{
-        mt: 'auto',
-        pt: 6,
-        pb: 4,
-        borderTop: '1px solid',
-        borderColor: 'divider',
-      }}
-    >
-      <Container maxWidth="lg">
-        <Grid container spacing={4}>
-          {/* About */}
-          <Grid size={{ xs: 12, md: 5 }}>
+    <footer className="footer">
+      <div className="container">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
+          {/* Top section */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '48px', justifyContent: 'space-between' }}>
+            {/* About */}
+            <div style={{ maxWidth: '320px' }}>
               <Image
                 src="/logo-nyarikerja.png"
                 alt="NyariKerja"
-                width={100}
-                height={34}
-                style={{ objectFit: 'contain' }}
+                width={120}
+                height={40}
+                style={{ objectFit: 'contain', marginBottom: '16px' }}
               />
-            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2, maxWidth: 320 }}>
-              Platform pencarian lowongan kerja terpercaya di Indonesia. Temukan karir
-              impianmu dari perusahaan-perusahaan terbaik.
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 0.5 }}>
-              <IconButton
-                size="small"
-                sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-              >
-                <TwitterIcon fontSize="small" />
-              </IconButton>
-              <IconButton
-                size="small"
-                sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-              >
-                <LinkedInIcon fontSize="small" />
-              </IconButton>
-              <IconButton
-                size="small"
-                sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
-              >
-                <GitHubIcon fontSize="small" />
-              </IconButton>
-            </Box>
-          </Grid>
+              <p style={{ fontSize: '15px', color: 'var(--steel)', fontWeight: 500, lineHeight: 1.6, marginBottom: '16px' }}>
+                Platform pencarian lowongan kerja terpercaya di Indonesia. Temukan karir
+                impianmu dari perusahaan-perusahaan terbaik.
+              </p>
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                <a href="https://instagram.com/nyarikerjaonline" target="_blank" rel="noreferrer" className="footer-link" aria-label="Instagram">
+                  <FontAwesomeIcon icon={faInstagram} style={{ width: 20, height: 20 }} />
+                </a>
+                <a href="https://facebook.com/nyarikerjaonline" target="_blank" rel="noreferrer" className="footer-link" aria-label="Facebook">
+                  <FontAwesomeIcon icon={faFacebook} style={{ width: 20, height: 20 }} />
+                </a>
+                <a href="https://t.me/nyarikerjaonline" target="_blank" rel="noreferrer" className="footer-link" aria-label="Telegram">
+                  <FontAwesomeIcon icon={faTelegram} style={{ width: 20, height: 20 }} />
+                </a>
+              </div>
+            </div>
 
-          {/* Quick Links */}
-          <Grid size={{ xs: 6, md: 3 }}>
-            <Typography
-              variant="subtitle2"
-              sx={{ fontWeight: 700, color: 'text.primary', mb: 2 }}
-            >
-              Menu
-            </Typography>
-            {[
-              { label: 'Beranda', href: '/' },
-              { label: 'Kategori', href: '/kategori' },
-              { label: 'Syarat & Ketentuan', href: '/syarat-ketentuan' },
-              { label: 'Kebijakan Privasi', href: '/kebijakan-privasi' },
-            ].map((link) => (
-              <Typography
-                key={link.href}
-                component={Link}
-                href={link.href}
-                variant="body2"
-                sx={{
-                  display: 'block',
-                  mb: 1,
-                  color: 'text.secondary',
-                  textDecoration: 'none',
-                  '&:hover': { color: 'primary.main' },
-                }}
-              >
-                {link.label}
-              </Typography>
-            ))}
-          </Grid>
+            {/* Link Columns */}
+            <div style={{ display: 'flex', gap: '64px', flexWrap: 'wrap' }}>
+              {/* Menu */}
+              <div>
+                <h4 className="footer-heading">Menu</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Link href="/" className="footer-link">Beranda</Link>
+                  <Link href="/kategori" className="footer-link">Kategori</Link>
+                  <Link href="/tentang" className="footer-link">Tentang Kami</Link>
+                </div>
+              </div>
 
-          {/* Contact */}
-          <Grid size={{ xs: 6, md: 4 }}>
-            <Typography
-              variant="subtitle2"
-              sx={{ fontWeight: 700, color: 'text.primary', mb: 2 }}
-            >
-              Kontak
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              <EmailOutlinedIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                info@nyarikerja.online
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              <LanguageIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                nyarikerja.online
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <LocationOnOutlinedIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                Jakarta, Indonesia
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
+              {/* Legal */}
+              <div>
+                <h4 className="footer-heading">Informasi</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Link href="/syarat-ketentuan" className="footer-link">Syarat &amp; Ketentuan</Link>
+                  <Link href="/kebijakan-privasi" className="footer-link">Kebijakan Privasi</Link>
+                </div>
+              </div>
 
-        <Divider sx={{ my: 4 }} />
+              {/* Contact */}
+              <div>
+                <h4 className="footer-heading">Kontak</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <span className="footer-link" style={{ cursor: 'default' }}>
+                    info@nyarikerja.online
+                  </span>
+                  <span className="footer-link" style={{ cursor: 'default' }}>
+                    nyarikerja.online
+                  </span>
+                  <span className="footer-link" style={{ cursor: 'default' }}>
+                    Karawang, Indonesia
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <Box
-          sx={{
+          {/* Divider */}
+          <hr className="divider" style={{ margin: 0 }} />
+
+          {/* Bottom */}
+          <div style={{
             display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
+            flexWrap: 'wrap',
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: 1,
-          }}
-        >
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            © {new Date().getFullYear()} NyariKerja. Hak cipta dilindungi.
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            Dibuat dengan <FavoriteIcon sx={{ fontSize: 14, color: 'error.main' }} /> di Indonesia
-          </Typography>
-        </Box>
-      </Container>
-    </Box>
+            gap: '16px',
+          }}>
+            <p style={{ fontSize: '13px', color: 'var(--stone)', fontWeight: 500 }}>
+              © {new Date().getFullYear()} NyariKerja. Hak cipta dilindungi.
+            </p>
+            <div style={{ display: 'flex', gap: '24px' }}>
+              <Link href="/syarat-ketentuan" style={{ fontSize: '13px', color: 'var(--stone)', fontWeight: 500, transition: 'color 180ms' }}>
+                Syarat &amp; Ketentuan
+              </Link>
+              <Link href="/kebijakan-privasi" style={{ fontSize: '13px', color: 'var(--stone)', fontWeight: 500, transition: 'color 180ms' }}>
+                Privasi
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }

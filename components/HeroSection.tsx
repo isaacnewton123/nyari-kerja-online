@@ -1,13 +1,9 @@
 'use client';
 
-import * as React from 'react';
-import { Box, Typography, InputBase, Button, Container, Chip } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import BusinessIcon from '@mui/icons-material/Business';
-import CategoryIconMui from '@mui/icons-material/Category';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass, faChartLine, faBuilding, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 
 interface HeroSectionProps {
   stats: {
@@ -18,7 +14,7 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ stats }: HeroSectionProps) {
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = useState('');
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -29,162 +25,69 @@ export default function HeroSection({ stats }: HeroSectionProps) {
   };
 
   const statsDisplay = [
-    { icon: <TrendingUpIcon sx={{ fontSize: 20 }} />, value: `${stats.posts}+`, label: 'Lowongan Aktif' },
-    { icon: <BusinessIcon sx={{ fontSize: 20 }} />, value: `${stats.companies}+`, label: 'Perusahaan' },
-    { icon: <CategoryIconMui sx={{ fontSize: 20 }} />, value: `${stats.categories}`, label: 'Kategori' },
+    { icon: faChartLine, value: `${stats.posts}+`, label: 'Lowongan Aktif' },
+    { icon: faBuilding, value: `${stats.companies}+`, label: 'Perusahaan' },
+    { icon: faLayerGroup, value: `${stats.categories}`, label: 'Kategori' },
   ];
 
-  const popularSearches = ['Operator Produksi', 'Crew Outlet', 'Kasir', 'Teknisi'];
-
   return (
-    <Box
-      sx={{
-        py: { xs: 8, md: 10 },
-        borderBottom: '1px solid',
-        borderColor: 'divider',
-      }}
-    >
-      <Container maxWidth="md" sx={{ textAlign: 'center' }}>
-        {/* Logo */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-          <Image 
-            src="/logo-nyarikerja.png" 
-            alt="NyariKerja Logo" 
-            width={72} 
-            height={72} 
-            priority
-            style={{ objectFit: 'contain' }}
-          />
-        </Box>
+    <header className="hero-band">
+      {/* Decorative dots — Notion-style atmospheric decoration */}
+      <div className="hero-dot" style={{ top: '15%', left: '10%', width: 20, height: 20, backgroundColor: 'var(--brand-pink)' }} />
+      <div className="hero-dot" style={{ top: '30%', right: '15%', width: 16, height: 16, backgroundColor: 'var(--brand-yellow)' }} />
+      <div className="hero-dot" style={{ bottom: '35%', left: '25%', width: 28, height: 28, borderRadius: 'var(--rounded-sm)', backgroundColor: 'var(--tint-mint)', opacity: 0.5, transform: 'rotate(15deg)' }} />
+      <div className="hero-dot" style={{ top: '50%', right: '8%', width: 12, height: 12, backgroundColor: 'var(--brand-purple)' }} />
+      <div className="hero-dot" style={{ top: '20%', right: '30%', width: 10, height: 10, backgroundColor: 'var(--brand-teal)', opacity: 0.6 }} />
+      <div className="hero-dot" style={{ bottom: '20%', right: '20%', width: 14, height: 14, backgroundColor: 'var(--brand-orange)', opacity: 0.5 }} />
 
-        {/* Heading */}
-        <Typography
-          variant="h3"
-          sx={{
-            mb: 2,
-            fontWeight: 700,
-          }}
-        >
-          Temukan Karir Impianmu
-        </Typography>
+      {/* Content */}
+      <div style={{ position: 'relative', zIndex: 10, maxWidth: '800px', margin: '0 auto', padding: '0 16px' }}>
+        <h1 className="hero-display" style={{ color: 'var(--on-dark)', marginBottom: '24px' }}>
+          Temukan pekerjaan<br />yang tepat untukmu.
+        </h1>
 
-        <Typography
-          variant="body1"
-          sx={{
-            mb: 5,
-            color: 'text.secondary',
-            maxWidth: 480,
-            mx: 'auto',
-            lineHeight: 1.6,
-          }}
-        >
-          Jelajahi ribuan lowongan kerja dari perusahaan-perusahaan terbaik di Indonesia.
-          Satu langkah lebih dekat menuju kesuksesanmu.
-        </Typography>
+        <p style={{
+          fontSize: '18px',
+          color: 'var(--on-dark-muted)',
+          fontWeight: 400,
+          maxWidth: '640px',
+          margin: '0 auto 40px',
+          lineHeight: 1.5,
+        }}>
+          Platform pencarian kerja terpercaya untuk profesional modern.
+          Jelajahi ribuan peluang karir terbaru dari perusahaan idamanmu.
+        </p>
 
         {/* Search Bar */}
-        <Box
-          component="form"
-          onSubmit={handleSearch}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            maxWidth: 560,
-            mx: 'auto',
-            mb: 3,
-            border: '1px solid',
-            borderColor: 'divider',
-            borderRadius: 2,
-            p: 0.5,
-            transition: 'border-color 0.2s ease',
-            '&:focus-within': {
-              borderColor: 'primary.main',
-            },
-          }}
-        >
-          <SearchIcon sx={{ ml: 1.5, color: 'text.secondary' }} />
-          <InputBase
-            placeholder="Cari posisi, perusahaan, atau lokasi..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            sx={{
-              flex: 1,
-              px: 1.5,
-              py: 0.75,
-              color: 'text.primary',
-              fontSize: '0.9375rem',
-            }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              borderRadius: 1.5,
-              px: 3,
-              py: 1,
-            }}
-          >
-            Cari
-          </Button>
-        </Box>
-
-        {/* Popular searches */}
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center', mb: 5 }}>
-          <Typography variant="body2" sx={{ color: 'text.secondary', mr: 0.5, lineHeight: '32px' }}>
-            Populer:
-          </Typography>
-          {popularSearches.map((s) => (
-            <Chip
-              key={s}
-              label={s}
-              variant="outlined"
-              size="small"
-              clickable
-              onClick={() => router.push(`/cari?q=${encodeURIComponent(s)}`)}
-              sx={{
-                borderColor: 'divider',
-                color: 'text.secondary',
-                '&:hover': {
-                  borderColor: 'primary.main',
-                  color: 'primary.main',
-                },
-              }}
+        <form onSubmit={handleSearch} className="hero-search" style={{ marginBottom: '48px' }}>
+          <div className="hero-search-input-wrap">
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="hero-search-icon" />
+            <input
+              type="text"
+              placeholder="Posisi, keahlian, atau perusahaan..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="hero-search-input"
             />
-          ))}
-        </Box>
+          </div>
+          <button type="submit" className="btn btn-primary hero-search-btn">
+            Cari Lowongan
+          </button>
+        </form>
 
         {/* Stats */}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: { xs: 4, md: 6 },
-            flexWrap: 'wrap',
-          }}
-        >
+        <div className="stat-row">
           {statsDisplay.map((stat) => (
-            <Box key={stat.label} sx={{ textAlign: 'center' }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 0.75,
-                  mb: 0.5,
-                }}
-              >
-                <Box sx={{ color: 'text.secondary', display: 'flex' }}>{stat.icon}</Box>
-                <Typography variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>
-                  {stat.value}
-                </Typography>
-              </Box>
-              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                {stat.label}
-              </Typography>
-            </Box>
+            <div key={stat.label} className="stat-item">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '4px' }}>
+                <FontAwesomeIcon icon={stat.icon} style={{ width: 18, height: 18, color: 'var(--on-dark-muted)' }} />
+                <span className="stat-value">{stat.value}</span>
+              </div>
+              <span className="stat-label">{stat.label}</span>
+            </div>
           ))}
-        </Box>
-      </Container>
-    </Box>
+        </div>
+      </div>
+    </header>
   );
 }

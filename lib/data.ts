@@ -3,14 +3,20 @@ import { JobPost, Category } from './types';
 
 // ---- Data Fetching Functions ----
 
-export async function getAllPosts(): Promise<JobPost[]> {
+export async function getPaginatedPosts(page = 1, limit = 10): Promise<{ posts: JobPost[], totalPosts: number, totalPages: number }> {
   const collection = await getCollection();
-  const docs = await collection
-    .find({})
-    .sort({ created_at: -1 })
-    .toArray();
+  const skip = (page - 1) * limit;
 
-  return docs.map(serializeDoc) as unknown as JobPost[];
+  const [docs, totalPosts] = await Promise.all([
+    collection.find({}).sort({ created_at: -1 }).skip(skip).limit(limit).toArray(),
+    collection.countDocuments()
+  ]);
+
+  return {
+    posts: docs.map(serializeDoc) as unknown as JobPost[],
+    totalPosts,
+    totalPages: Math.ceil(totalPosts / limit)
+  };
 }
 
 export async function getLatestPosts(limit = 6): Promise<JobPost[]> {

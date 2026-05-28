@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
-import ThemeRegistry from '@/lib/ThemeRegistry';
+import '@/lib/fontawesome';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Box } from '@mui/material';
 import './globals.css';
 
 const inter = Inter({
@@ -94,21 +93,13 @@ export default function RootLayout({
   return (
     <html lang="id" className={inter.variable}>
       <body>
-        <ThemeRegistry>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: '100vh',
-            }}
-          >
-            <Navbar />
-            <Box component="main" sx={{ flex: 1 }}>
-              {children}
-            </Box>
-            <Footer />
-          </Box>
-        </ThemeRegistry>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Navbar />
+          <main style={{ flex: 1 }}>
+            {children}
+          </main>
+          <Footer />
+        </div>
         <Analytics />
       </body>
     </html>

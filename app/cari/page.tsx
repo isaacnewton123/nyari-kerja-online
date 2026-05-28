@@ -1,8 +1,8 @@
-import { Container, Typography, Box, Grid } from "@mui/material";
-import SearchOffIcon from "@mui/icons-material/SearchOffOutlined";
-import JobCard from "@/components/JobCard";
-import SearchInput from "@/app/cari/SearchInput";
-import { searchPosts } from "@/lib/data";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlassMinus } from '@fortawesome/free-solid-svg-icons';
+import JobCard from '@/components/JobCard';
+import SearchInput from '@/app/cari/SearchInput';
+import { searchPosts } from '@/lib/data';
 
 interface SearchPageProps {
   searchParams: Promise<{ q?: string }>;
@@ -13,57 +13,50 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const results = query ? await searchPosts(query) : [];
 
   return (
-    <Box sx={{ py: 6, minHeight: "60vh" }}>
-      <Container maxWidth="lg">
-        <Typography
-          variant="h3"
-          sx={{ fontWeight: 800, mb: 1, textAlign: "center" }}
-        >
+    <div style={{ padding: '48px 0', minHeight: '60vh' }}>
+      <div className="container">
+        <h1 className="heading-1" style={{ textAlign: 'center', marginBottom: '8px' }}>
           Cari Lowongan
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: "text.secondary", mb: 4, textAlign: "center" }}
-        >
+        </h1>
+        <p className="body-md" style={{ color: 'var(--slate)', marginBottom: '32px', textAlign: 'center' }}>
           Temukan lowongan yang sesuai dengan kata kunci pencarian
-        </Typography>
+        </p>
 
         {/* Search Input (Client Component) */}
-        <SearchInput initialQuery={query || ""} />
+        <SearchInput initialQuery={query || ''} />
 
         {/* Results */}
         {query && (
-          <Box sx={{ mb: 4 }}>
-            <Typography variant="body1" sx={{ color: "text.secondary" }}>
+          <div style={{ marginBottom: '32px' }}>
+            <p className="body-md" style={{ color: 'var(--slate)' }}>
               {results.length > 0
                 ? `Ditemukan ${results.length} hasil untuk "${query}"`
                 : `Tidak ada hasil untuk "${query}"`}
-            </Typography>
-          </Box>
+            </p>
+          </div>
         )}
 
         {results.length > 0 ? (
-          <Grid container spacing={3}>
+          <div className="grid grid-2">
             {results.map((post) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={post._id}>
-                <JobCard post={post} />
-              </Grid>
+              <JobCard key={post._id} post={post} />
             ))}
-          </Grid>
+          </div>
         ) : query ? (
-          <Box sx={{ textAlign: "center", py: 8 }}>
-            <SearchOffIcon
-              sx={{ fontSize: 48, color: "text.disabled", mb: 2 }}
+          <div style={{ textAlign: 'center', padding: '64px 0' }}>
+            <FontAwesomeIcon
+              icon={faMagnifyingGlassMinus}
+              style={{ width: 48, height: 48, color: 'var(--muted)', marginBottom: '16px' }}
             />
-            <Typography variant="h6" sx={{ mb: 1, color: "text.secondary" }}>
+            <h2 className="heading-5" style={{ marginBottom: '8px', color: 'var(--slate)' }}>
               Lowongan tidak ditemukan
-            </Typography>
-            <Typography variant="body1" sx={{ color: "text.secondary" }}>
+            </h2>
+            <p className="body-md" style={{ color: 'var(--steel)' }}>
               Coba gunakan kata kunci yang berbeda
-            </Typography>
-          </Box>
+            </p>
+          </div>
         ) : null}
-      </Container>
-    </Box>
+      </div>
+    </div>
   );
 }

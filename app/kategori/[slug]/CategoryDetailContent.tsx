@@ -1,14 +1,6 @@
-'use client';
-
-import {
-  Container,
-  Typography,
-  Box,
-  Grid,
-  Breadcrumbs,
-} from '@mui/material';
 import Link from 'next/link';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import JobCard from '@/components/JobCard';
 import { JobPost, Category } from '@/lib/types';
 
@@ -19,69 +11,41 @@ interface CategoryDetailContentProps {
 
 export default function CategoryDetailContent({ cat, posts }: CategoryDetailContentProps) {
   return (
-    <Box sx={{ py: 6 }}>
-      <Container maxWidth="lg">
-        <Breadcrumbs
-          separator={<NavigateNextIcon sx={{ fontSize: 16 }} />}
-          sx={{ mb: 4 }}
-        >
-          <Typography
-            component={Link}
-            href="/"
-            variant="body2"
-            sx={{
-              color: 'text.secondary',
-              textDecoration: 'none',
-              '&:hover': { color: 'primary.main' },
-            }}
-          >
-            Beranda
-          </Typography>
-          <Typography
-            component={Link}
-            href="/kategori"
-            variant="body2"
-            sx={{
-              color: 'text.secondary',
-              textDecoration: 'none',
-              '&:hover': { color: 'primary.main' },
-            }}
-          >
-            Kategori
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.primary' }}>
-            {cat.name}
-          </Typography>
-        </Breadcrumbs>
+    <div style={{ padding: '48px 0' }}>
+      <div className="container">
+        {/* Breadcrumbs */}
+        <div className="breadcrumbs">
+          <Link href="/">Beranda</Link>
+          <FontAwesomeIcon icon={faChevronRight} className="breadcrumbs-separator" style={{ width: 10, height: 10 }} />
+          <Link href="/kategori">Kategori</Link>
+          <FontAwesomeIcon icon={faChevronRight} className="breadcrumbs-separator" style={{ width: 10, height: 10 }} />
+          <span className="breadcrumbs-current">{cat.name}</span>
+        </div>
 
-        <Box sx={{ mb: 4 }}>
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
-            Lowongan {cat.name}
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        <div style={{ marginBottom: '32px' }}>
+          <h1 className="heading-1">Lowongan {cat.name}</h1>
+          <p className="body-sm" style={{ color: 'var(--slate)' }}>
             {posts.length} lowongan tersedia
-          </Typography>
-        </Box>
+          </p>
+        </div>
 
         {posts.length > 0 ? (
-          <Grid container spacing={3}>
+          <div className="grid grid-2">
             {posts.map((post) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={post._id}>
-                <JobCard post={post} />
-              </Grid>
+              <JobCard key={post._id} post={post} />
             ))}
-          </Grid>
+          </div>
         ) : (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Typography variant="h6" sx={{ mb: 1, color: 'text.secondary' }}>
+          <div style={{ textAlign: 'center', padding: '64px 0' }}>
+            <h2 className="heading-5" style={{ marginBottom: '8px', color: 'var(--slate)' }}>
               Belum ada lowongan
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            </h2>
+            <p className="body-sm" style={{ color: 'var(--steel)' }}>
               Lowongan di kategori {cat.name} sedang belum tersedia. Cek kembali nanti!
-            </Typography>
-          </Box>
+            </p>
+          </div>
         )}
-      </Container>
-    </Box>
+      </div>
+    </div>
   );
 }

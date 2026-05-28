@@ -1,11 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import Link from "next/link";
-import { Container, Typography, Box, Paper, Button } from "@mui/material";
-import ErrorOutlinedIcon from "@mui/icons-material/ErrorOutlined";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import HomeIcon from "@mui/icons-material/Home";
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleExclamation, faArrowsRotate, faHouse } from '@fortawesome/free-solid-svg-icons';
 
 export default function ErrorBoundary({
   error,
@@ -15,96 +13,61 @@ export default function ErrorBoundary({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service if available
-    console.error("Runtime Error Caught by Next.js Error Boundary:", error);
+    console.error('Runtime Error Caught by Next.js Error Boundary:', error);
   }, [error]);
 
   return (
-    <Box
-      sx={{
-        py: { xs: 8, md: 12 },
-        minHeight: "70vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        bgcolor: "background.default",
-      }}
-    >
-      <Container maxWidth="sm">
-        <Paper
-          elevation={0}
-          sx={{
-            p: { xs: 4, md: 6 },
-            borderRadius: 4,
-            textAlign: "center",
-            background: "rgba(255, 255, 255, 0.04)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 107, 107, 0.3)",
-            boxShadow: "0 10px 40px rgba(255, 107, 107, 0.15)",
-          }}
-        >
-          <Box
-            sx={{
-              display: "inline-flex",
-              p: 3,
-              borderRadius: "50%",
-              bgcolor: "rgba(255, 107, 107, 0.15)",
-              color: "error.main",
-              mb: 3,
-            }}
-          >
-            <ErrorOutlinedIcon sx={{ fontSize: 64 }} />
-          </Box>
-          
-          <Typography variant="h5" sx={{ fontWeight: 800, color: "text.primary", mb: 2 }}>
-            Sistem Mengalami Gangguan
-          </Typography>
-          
-          <Typography variant="body1" sx={{ color: "text.secondary", mb: 4 }}>
-            Mohon maaf, terjadi kesalahan teknis saat memuat bagian ini. Tim kami telah diberitahu. Anda dapat mencoba memuat ulang, atau kembali ke halaman utama.
-          </Typography>
+    <div style={{
+      padding: '96px 16px',
+      minHeight: '70vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <div style={{
+        maxWidth: '480px',
+        width: '100%',
+        textAlign: 'center',
+        padding: '48px',
+        borderRadius: 'var(--rounded-lg)',
+        border: '1px solid var(--hairline)',
+        background: 'var(--canvas)',
+        boxShadow: 'var(--shadow-card)',
+      }}>
+        <div style={{
+          display: 'inline-flex',
+          padding: '24px',
+          borderRadius: '50%',
+          backgroundColor: '#fff3e0',
+          color: 'var(--error)',
+          marginBottom: '24px',
+        }}>
+          <FontAwesomeIcon icon={faCircleExclamation} style={{ width: 48, height: 48 }} />
+        </div>
 
-          <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 2, justifyContent: "center" }}>
-            <Button
-              onClick={() => reset()}
-              variant="contained"
-              color="primary"
-              size="large"
-              startIcon={<RefreshIcon />}
-              sx={{
-                borderRadius: 2,
-                px: 3,
-                py: 1.5,
-                fontWeight: 600,
-                textTransform: "none",
-                boxShadow: "0 4px 14px 0 rgba(37, 99, 235, 0.39)",
-                width: "100%",
-              }}
-            >
-              Coba Lagi
-            </Button>
-            
-            <Link href="/" passHref style={{ textDecoration: "none" }}>
-              <Button
-                variant="outlined"
-                color="inherit"
-                size="large"
-                startIcon={<HomeIcon />}
-                sx={{
-                  borderRadius: 2,
-                  px: 3,
-                  py: 1.5,
-                  fontWeight: 600,
-                  textTransform: "none",
-                  width: "100%",
-                }}
-              >
-                Beranda
-              </Button>
-            </Link>
-          </Box>
-        </Paper>
-      </Container>
-    </Box>
+        <h1 className="heading-4" style={{ marginBottom: '16px' }}>
+          Sistem Mengalami Gangguan
+        </h1>
+
+        <p className="body-md" style={{ color: 'var(--slate)', marginBottom: '32px' }}>
+          Mohon maaf, terjadi kesalahan teknis saat memuat bagian ini. Tim kami telah diberitahu. Anda dapat mencoba memuat ulang, atau kembali ke halaman utama.
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <button
+            onClick={() => reset()}
+            className="btn btn-primary btn-lg"
+            style={{ width: '100%' }}
+          >
+            <FontAwesomeIcon icon={faArrowsRotate} style={{ width: 16, height: 16 }} />
+            Coba Lagi
+          </button>
+          <Link href="/" className="btn btn-secondary btn-lg" style={{ width: '100%' }}>
+            <FontAwesomeIcon icon={faHouse} style={{ width: 16, height: 16 }} />
+            Beranda
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

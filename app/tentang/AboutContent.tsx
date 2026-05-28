@@ -1,159 +1,113 @@
-'use client';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBriefcase, faGlobe, faShieldHalved, faUsers } from '@fortawesome/free-solid-svg-icons';
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-import {
-  Container,
-  Typography,
-  Box,
-  Paper,
-  Grid,
-  alpha,
-} from '@mui/material';
-import WorkOutlinedIcon from '@mui/icons-material/WorkOutlined';
-import SecurityIcon from '@mui/icons-material/Security';
-import SpeedIcon from '@mui/icons-material/Speed';
-import GroupsIcon from '@mui/icons-material/Groups';
+interface Feature {
+  icon: IconDefinition;
+  title: string;
+  description: string;
+}
 
-const features = [
+const features: Feature[] = [
   {
-    icon: <WorkOutlinedIcon sx={{ fontSize: 28 }} />,
+    icon: faBriefcase,
     title: 'Lowongan Terkurasi',
-    description:
-      'Setiap lowongan yang kami tampilkan sudah diverifikasi untuk memastikan keaslian dan relevansi informasi.',
+    description: 'Setiap lowongan yang kami tampilkan sudah diverifikasi untuk memastikan keaslian dan relevansi informasi.',
   },
   {
-    icon: <SpeedIcon sx={{ fontSize: 28 }} />,
+    icon: faGlobe,
     title: 'Akses Cepat',
-    description:
-      'Platform kami dirancang untuk memberikan pengalaman pencarian yang cepat dan efisien tanpa hambatan.',
+    description: 'Platform kami dirancang untuk memberikan pengalaman pencarian yang cepat dan efisien tanpa hambatan.',
   },
   {
-    icon: <SecurityIcon sx={{ fontSize: 28 }} />,
+    icon: faShieldHalved,
     title: 'Aman & Terpercaya',
-    description:
-      'Keamanan data pengguna adalah prioritas utama kami. Informasi pribadi Anda selalu terlindungi.',
+    description: 'Keamanan data pengguna adalah prioritas utama kami. Informasi pribadi Anda selalu terlindungi.',
   },
   {
-    icon: <GroupsIcon sx={{ fontSize: 28 }} />,
+    icon: faUsers,
     title: 'Komunitas',
-    description:
-      'Bergabung dengan jutaan pencari kerja di Indonesia yang sudah menemukan karir impian mereka.',
+    description: 'Bergabung dengan jutaan pencari kerja di Indonesia yang sudah menemukan karir impian mereka.',
   },
 ];
 
 export default function AboutContent() {
   return (
-    <Box sx={{ py: 8 }}>
-      <Container maxWidth="md">
+    <div style={{ padding: '64px 0' }}>
+      <div className="container" style={{ maxWidth: '768px' }}>
         {/* Hero */}
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+        <div style={{ marginBottom: '48px' }}>
+          <h1 className="heading-1" style={{ marginBottom: '8px' }}>
             Tentang NyariKerja
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ color: 'text.secondary', maxWidth: 500 }}
-          >
+          </h1>
+          <p className="body-md" style={{ color: 'var(--slate)', maxWidth: '500px' }}>
             Membantu jutaan orang Indonesia menemukan karir yang tepat dan bermakna
-          </Typography>
-        </Box>
+          </p>
+        </div>
 
         {/* Mission */}
-        <Paper
-          sx={{
-            p: 4,
-            mb: 5,
-            border: '1px solid',
-            borderColor: 'divider',
-            borderRadius: 2,
-          }}
-        >
-          <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+        <div className="card-base" style={{ marginBottom: '40px' }}>
+          <h2 className="heading-4" style={{ marginBottom: '16px' }}>
             Misi Kami
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2, lineHeight: 1.8 }}>
+          </h2>
+          <p className="body-md" style={{ marginBottom: '12px', lineHeight: 1.8 }}>
             NyariKerja hadir sebagai jembatan antara pencari kerja dan perusahaan-perusahaan
             terbaik di Indonesia. Kami percaya bahwa setiap orang berhak mendapatkan akses
             yang sama terhadap peluang karir yang berkualitas.
-          </Typography>
-          <Typography variant="body1" sx={{ lineHeight: 1.8, color: 'text.secondary' }}>
+          </p>
+          <p className="body-md" style={{ color: 'var(--slate)', lineHeight: 1.8 }}>
             Platform kami dirancang untuk menyederhanakan proses pencarian kerja, mulai dari
             menemukan lowongan yang sesuai hingga proses lamaran. Dengan teknologi modern dan
             pendekatan yang berpusat pada pengguna, kami berkomitmen untuk memberikan pengalaman
             terbaik dalam perjalanan karir Anda.
-          </Typography>
-        </Paper>
+          </p>
+        </div>
 
         {/* Features */}
-        <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>
+        <h2 className="heading-4" style={{ marginBottom: '24px' }}>
           Mengapa NyariKerja?
-        </Typography>
-        <Grid container spacing={2.5} sx={{ mb: 5 }}>
+        </h2>
+        <div className="grid grid-2" style={{ marginBottom: '40px' }}>
           {features.map((feature) => (
-            <Grid size={{ xs: 12, sm: 6 }} key={feature.title}>
-              <Paper
-                sx={{
-                  p: 3,
-                  height: '100%',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  borderRadius: 2,
-                  transition: 'border-color 0.2s ease',
-                  '&:hover': {
-                    borderColor: 'primary.main',
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 44,
-                    height: 44,
-                    borderRadius: 2,
-                    backgroundColor: alpha('#6C63FF', 0.08),
-                    color: 'primary.main',
-                    mb: 2,
-                  }}
-                >
-                  {feature.icon}
-                </Box>
-                <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
-                  {feature.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'text.secondary', lineHeight: 1.6 }}
-                >
-                  {feature.description}
-                </Typography>
-              </Paper>
-            </Grid>
+            <div className="card-base" key={feature.title} style={{ height: '100%' }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 44,
+                height: 44,
+                borderRadius: 'var(--rounded-md)',
+                backgroundColor: 'var(--tint-lavender)',
+                color: 'var(--primary)',
+                marginBottom: '16px',
+              }}>
+                <FontAwesomeIcon icon={feature.icon} style={{ width: 22, height: 22 }} />
+              </div>
+              <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '6px' }}>
+                {feature.title}
+              </h3>
+              <p className="body-sm" style={{ color: 'var(--slate)', lineHeight: 1.6 }}>
+                {feature.description}
+              </p>
+            </div>
           ))}
-        </Grid>
+        </div>
 
         {/* CTA */}
-        <Paper
-          sx={{
-            p: 4,
-            textAlign: 'center',
-            border: '1px solid',
-            borderColor: 'divider',
-            borderRadius: 2,
-          }}
-        >
-          <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
+        <div className="card-base" style={{ textAlign: 'center' }}>
+          <h2 className="heading-4" style={{ marginBottom: '8px' }}>
             Siap Memulai Perjalanan Karirmu?
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ color: 'text.secondary', maxWidth: 480, mx: 'auto' }}
-          >
+          </h2>
+          <p className="body-sm" style={{ color: 'var(--slate)', maxWidth: '480px', margin: '0 auto 24px' }}>
             Jelajahi ribuan lowongan dari perusahaan-perusahaan terbaik di Indonesia dan
             temukan posisi yang sesuai dengan impianmu.
-          </Typography>
-        </Paper>
-      </Container>
-    </Box>
+          </p>
+          <Link href="/kategori" className="btn btn-primary">
+            Jelajahi Lowongan
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

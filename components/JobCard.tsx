@@ -1,165 +1,92 @@
-'use client';
-
-import { Card, CardContent, CardMedia, Typography, Box, Chip, alpha, CardActionArea } from '@mui/material';
-import Link from 'next/link';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { JobPost } from '@/lib/types';
-import { getTimeAgo } from '@/lib/utils';
+import Link from "next/link";
+import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot, faBriefcase } from "@fortawesome/free-solid-svg-icons";
+import { JobPost } from "@/lib/types";
+import { getTimeAgo } from "@/lib/utils";
 
 interface JobCardProps {
   post: JobPost;
 }
 
+const badgeTints = [
+  "badge-tag-sky",
+  "badge-tag-rose",
+  "badge-tag-green",
+  "badge-tag-purple",
+  "badge-tag-orange",
+];
+
 export default function JobCard({ post }: JobCardProps) {
-  const mainPosition = post.jobs[0]?.position || 'Posisi Tersedia';
-  const snippet = post.section_1?.paragraphs?.[0] || '';
+  const mainPosition = post.jobs[0]?.position || "Posisi Tersedia";
+  const salaryFormat =
+    post.salaries && post.salaries.length > 0 ? post.salaries[0].salary : null;
+
+  // Deterministic tint based on category string
+  const tintIdx = post.category
+    ? post.category.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0) %
+      badgeTints.length
+    : 0;
+
+  const dateString = (() => {
+    const date = new Date(post.created_at);
+    return isNaN(date.getTime()) ? "Baru Saja" : getTimeAgo(post.created_at);
+  })();
 
   return (
-    <Card
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        border: '1px solid',
-        borderColor: 'divider',
-        transition: 'all 0.2s ease',
-        '&:hover': {
-          borderColor: 'primary.main',
-        },
-      }}
-    >
-      <CardActionArea
-        component={Link}
-        href={`/lowongan/${post.slug}`}
-        sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          justifyContent: 'flex-start',
-        }}
-      >
-      {/* Company Image */}
-      {post.image_url && (
-        <CardMedia
-          component="img"
-          height="160"
-          image={post.image_url}
-          alt={post.company}
-          sx={{ objectFit: 'cover' }}
-        />
-      )}
-
-      <CardContent sx={{ p: 3, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Header: Category */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Chip
-            label={post.category}
-            size="small"
-            sx={{
-              backgroundColor: alpha('#6C63FF', 0.08),
-              color: 'primary.main',
-              fontWeight: 600,
-              fontSize: '0.75rem',
-            }}
-          />
-          {post.job_type && (
-            <Chip
-              label={post.job_type}
-              size="small"
-              variant="outlined"
-              sx={{
-                fontSize: '0.7rem',
-                borderColor: alpha('#FFFFFF', 0.12),
-                color: 'text.secondary',
-              }}
+    <Link href={`/lowongan/${post.slug}`} className="job-card">
+      {/* Header: Logo + Title */}
+      <div className="job-card-header">
+        <div className="job-card-logo">
+          {post.image_url ? (
+            <Image
+              src={post.image_url}
+              alt={post.company}
+              fill
+              sizes="56px"
+              style={{ objectFit: "cover", opacity: 1 }}
+              referrerPolicy="no-referrer"
             />
-          )}
-        </Box>
+          ) : null}
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="job-card-title line-clamp-2">
+            {post.seo?.meta_title || mainPosition}
+          </h3>
+          <p className="job-card-company">{post.company}</p>
+        </div>
+      </div>
 
-        {/* Company */}
-        <Typography
-          variant="body2"
-          sx={{ color: 'text.secondary', fontWeight: 500, mb: 0.5 }}
+      {/* Meta */}
+      <div className="job-card-meta">
+        <div className="job-card-meta-item">
+          <FontAwesomeIcon
+            icon={faLocationDot}
+            className="job-card-meta-icon"
+          />
+          <span className="line-clamp-1">
+            {post.location || "Seluruh Indonesia"}
+          </span>
+        </div>
+        <div className="job-card-meta-item">
+          <FontAwesomeIcon icon={faBriefcase} className="job-card-meta-icon" />
+          <span className="line-clamp-1">
+            {post.job_type || "Full Time"}
+            {salaryFormat && ` • ${salaryFormat}`}
+          </span>
+        </div>
+      </div>
+
+      {/* Footer: Category Badge + Date */}
+      <div className="job-card-footer">
+        <span
+          className={`badge-tag ${badgeTints[tintIdx]} truncate`}
+          style={{ maxWidth: "65%" }}
         >
-          {post.company}
-        </Typography>
-
-        {/* Position */}
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: 700,
-            mb: 1.5,
-            color: 'text.primary',
-            lineHeight: 1.3,
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-          }}
-        >
-          {mainPosition}
-        </Typography>
-
-        {/* Description snippet */}
-        <Typography
-          variant="body2"
-          sx={{
-            color: 'text.secondary',
-            mb: 2,
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            lineHeight: 1.6,
-          }}
-        >
-          {snippet}
-        </Typography>
-
-        <Box sx={{ mt: 'auto' }}>
-          {/* Meta */}
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2.5 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <LocationOnOutlinedIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                {post.location}
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <CalendarTodayOutlinedIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
-              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                {getTimeAgo(post.created_at)}
-              </Typography>
-            </Box>
-          </Box>
-
-          {/* CTA */}
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 1,
-              borderRadius: 2,
-              py: 0.75,
-              border: '1px solid',
-              borderColor: 'primary.main',
-              color: 'primary.main',
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              transition: 'all 0.2s',
-            }}
-          >
-            Lihat Detail <ArrowForwardIcon fontSize="small" />
-          </Box>
-        </Box>
-      </CardContent>
-      </CardActionArea>
-    </Card>
+          {post.category || "Lainnya"}
+        </span>
+        <span className="job-card-date">{dateString}</span>
+      </div>
+    </Link>
   );
 }

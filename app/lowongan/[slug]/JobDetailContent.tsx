@@ -1,46 +1,27 @@
-"use client";
+'use client';
 
+import Link from 'next/link';
+import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  Container,
-  Typography,
-  Box,
-  Chip,
-  Button,
-  Paper,
-  Breadcrumbs,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  alpha,
-  Alert,
-  AlertTitle,
-} from "@mui/material";
-import Link from "next/link";
-import JobCard from "@/components/JobCard";
-import Image from "next/image";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
-import SendIcon from "@mui/icons-material/Send";
-import EmailIcon from "@mui/icons-material/Email";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import ShareIcon from "@mui/icons-material/Share";
-import WorkOutlineIcon from "@mui/icons-material/WorkOutlined";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import JsonLd from "@/components/JsonLd";
-import { formatDate, getTimeAgo } from "@/lib/utils";
-import { JobPost, Section } from "@/lib/types";
+  faBuilding,
+  faLocationDot,
+  faCalendarDays,
+  faCircleCheck,
+  faPaperPlane,
+  faEnvelope,
+  faUpRightFromSquare,
+  faShareNodes,
+  faGraduationCap,
+  faBriefcase,
+  faChevronRight,
+  faShieldHalved,
+} from '@fortawesome/free-solid-svg-icons';
+import { faWhatsapp, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import JobCard from '@/components/JobCard';
+import JsonLd from '@/components/JsonLd';
+import { formatDate, getTimeAgo } from '@/lib/utils';
+import { JobPost, Section } from '@/lib/types';
 
 interface JobDetailContentProps {
   post: JobPost;
@@ -49,26 +30,33 @@ interface JobDetailContentProps {
   slug: string;
 }
 
+function parseBoldText(text: string) {
+  if (!text) return null;
+  if (!text.includes('**')) return text;
+  
+  const parts = text.split('**');
+  return parts.map((part, idx) => {
+    if (idx % 2 === 1) {
+      return <strong key={idx} style={{ fontWeight: 600, color: 'var(--ink)' }}>{part}</strong>;
+    }
+    return <span key={idx}>{part}</span>;
+  });
+}
+
 function SectionBlock({ section }: { section: Section }) {
   if (!section || (!section.header && section.paragraphs.length === 0))
     return null;
   return (
-    <Box sx={{ mb: 3 }}>
+    <div className="content-section">
       {section.header && (
-        <Typography variant="h6" sx={{ fontWeight: 700, mb: 1.5 }}>
-          {section.header}
-        </Typography>
+        <h3 className="heading-5" style={{ marginBottom: '12px' }}>{section.header}</h3>
       )}
       {section.paragraphs.map((p, i) => (
-        <Typography
-          key={i}
-          variant="body1"
-          sx={{ mb: 1.5, color: "text.secondary", lineHeight: 1.8 }}
-        >
-          {p}
-        </Typography>
+        <p key={i} style={{ color: 'var(--slate)', lineHeight: 1.8, marginBottom: '12px', fontSize: '15px' }}>
+          {parseBoldText(p)}
+        </p>
       ))}
-    </Box>
+    </div>
   );
 }
 
@@ -78,39 +66,38 @@ export default function JobDetailContent({
   recommendedPosts,
   slug,
 }: JobDetailContentProps) {
-  const mainPosition = post.jobs[0]?.position || "Posisi Tersedia";
+  const mainPosition = post.jobs[0]?.position || 'Posisi Tersedia';
   const categorySlug = post.category
     .toLowerCase()
-    .replace(/&/g, "dan")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+    .replace(/&/g, 'dan')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 
   const jobPostingJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "JobPosting",
+    '@context': 'https://schema.org',
+    '@type': 'JobPosting',
     title: mainPosition,
-    description:
-      post.seo?.meta_description || post.section_1?.paragraphs?.[0] || "",
+    description: post.seo?.meta_description || post.section_1?.paragraphs?.[0] || '',
     datePosted: post.created_at,
     hiringOrganization: {
-      "@type": "Organization",
+      '@type': 'Organization',
       name: post.company,
-      sameAs: post.apply_links.find((l) => l.url.startsWith("http"))?.url,
+      sameAs: post.apply_links.find((l) => l.url.startsWith('http'))?.url,
     },
     jobLocation: {
-      "@type": "Place",
+      '@type': 'Place',
       address: {
-        "@type": "PostalAddress",
-        addressLocality: post.location.split(",")[0]?.trim(),
-        addressRegion: post.location.split(",")[1]?.trim(),
-        addressCountry: "ID",
+        '@type': 'PostalAddress',
+        addressLocality: post.location.split(',')[0]?.trim(),
+        addressRegion: post.location.split(',')[1]?.trim(),
+        addressCountry: 'ID',
       },
     },
-    employmentType: "FULL_TIME",
+    employmentType: 'FULL_TIME',
     image: post.image_url || undefined,
     applicantLocationRequirements: {
-      "@type": "Country",
-      name: "Indonesia",
+      '@type': 'Country',
+      name: 'Indonesia',
     },
   };
 
@@ -118,622 +105,301 @@ export default function JobDetailContent({
     <>
       <JsonLd data={jobPostingJsonLd} />
 
-      {/* Header Section */}
-      <Box sx={{ py: 5 }}>
-        <Container maxWidth="lg">
+      <div style={{ padding: '40px 0' }}>
+        <div className="container">
           {/* Breadcrumbs */}
-          <Breadcrumbs
-            separator={<NavigateNextIcon sx={{ fontSize: 16 }} />}
-            sx={{ mb: 3 }}
-          >
-            <Typography
-              component={Link}
-              href="/"
-              variant="body2"
-              sx={{
-                color: "text.secondary",
-                textDecoration: "none",
-                "&:hover": { color: "primary.main" },
-              }}
-            >
-              Beranda
-            </Typography>
-            <Typography
-              component={Link}
-              href={`/kategori/${categorySlug}`}
-              variant="body2"
-              sx={{
-                color: "text.secondary",
-                textDecoration: "none",
-                "&:hover": { color: "primary.main" },
-              }}
-            >
-              {post.category}
-            </Typography>
-            <Typography variant="body2" sx={{ color: "text.primary" }}>
-              {mainPosition}
-            </Typography>
-          </Breadcrumbs>
+          <div className="breadcrumbs">
+            <Link href="/">Beranda</Link>
+            <FontAwesomeIcon icon={faChevronRight} className="breadcrumbs-separator" style={{ width: 10, height: 10 }} />
+            <Link href={`/kategori/${categorySlug}`}>{post.category}</Link>
+            <FontAwesomeIcon icon={faChevronRight} className="breadcrumbs-separator" style={{ width: 10, height: 10 }} />
+            <span className="breadcrumbs-current">{mainPosition}</span>
+          </div>
 
-          <Grid container spacing={4}>
+          <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
             {/* Main Content */}
-            <Grid size={{ xs: 12, md: 8 }}>
-              {/* Title Card with Image */}
-              <Paper
-                sx={{
-                  mb: 3,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 2,
-                  overflow: "hidden",
-                }}
-              >
+            <div style={{ flex: '1 1 640px', minWidth: 0 }}>
+              {/* Title Card */}
+              <div className="card-base" style={{ padding: 0, overflow: 'hidden', marginBottom: '24px' }}>
                 {post.image_url && (
-                  <Box
-                    sx={{ position: "relative", width: "100%", height: 220 }}
-                  >
+                  <div style={{ position: 'relative', width: '100%', height: 220 }}>
                     <Image
                       src={post.image_url}
                       alt={post.company}
                       fill
-                      style={{ objectFit: "cover" }}
+                      style={{ objectFit: 'cover' }}
                       priority
                     />
-                  </Box>
+                  </div>
                 )}
-                <Box sx={{ p: 4 }}>
-                  <Box
-                    sx={{ display: "flex", gap: 1, mb: 2, flexWrap: "wrap" }}
-                  >
-                    <Chip
-                      label={post.category}
-                      size="small"
-                      sx={{
-                        backgroundColor: alpha("#6C63FF", 0.08),
-                        color: "primary.main",
-                        fontWeight: 600,
-                      }}
-                    />
+                <div style={{ padding: '32px' }}>
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                    <span className="badge-tag badge-tag-purple">{post.category}</span>
                     {post.job_type && (
-                      <Chip
-                        label={post.job_type}
-                        size="small"
-                        variant="outlined"
-                        sx={{
-                          borderColor: alpha("#FFFFFF", 0.12),
-                          color: "text.secondary",
-                        }}
-                      />
+                      <span className="badge-tag" style={{ backgroundColor: 'var(--surface)', color: 'var(--slate)', border: '1px solid var(--hairline)' }}>
+                        {post.job_type}
+                      </span>
                     )}
-                  </Box>
+                  </div>
 
-                  <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
-                    {mainPosition}
-                  </Typography>
+                  <h1 className="heading-3" style={{ marginBottom: '16px' }}>{mainPosition}</h1>
 
-                  <Box
-                    sx={{ display: "flex", flexWrap: "wrap", gap: 3, mb: 2 }}
-                  >
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.75 }}
-                    >
-                      <BusinessOutlinedIcon
-                        sx={{ fontSize: 18, color: "text.secondary" }}
-                      />
-                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                        {post.company}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.75 }}
-                    >
-                      <LocationOnOutlinedIcon
-                        sx={{ fontSize: 18, color: "text.secondary" }}
-                      />
-                      <Typography
-                        variant="body2"
-                        sx={{ color: "text.secondary" }}
-                      >
-                        {post.location}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.75 }}
-                    >
-                      <CalendarTodayOutlinedIcon
-                        sx={{ fontSize: 18, color: "text.secondary" }}
-                      />
-                      <Typography
-                        variant="body2"
-                        sx={{ color: "text.secondary" }}
-                      >
-                        {formatDate(post.created_at)} (
-                        {getTimeAgo(post.created_at)})
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </Paper>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <FontAwesomeIcon icon={faBuilding} style={{ width: 16, height: 16, color: 'var(--steel)' }} />
+                      <span className="body-md-medium">{post.company}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <FontAwesomeIcon icon={faLocationDot} style={{ width: 16, height: 16, color: 'var(--steel)' }} />
+                      <span className="body-sm" style={{ color: 'var(--slate)' }}>{post.location}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <FontAwesomeIcon icon={faCalendarDays} style={{ width: 16, height: 16, color: 'var(--steel)' }} />
+                      <span className="body-sm" style={{ color: 'var(--slate)' }}>
+                        {formatDate(post.created_at)} ({getTimeAgo(post.created_at)})
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-              {/* Section 1 & 2 (Before salary table) */}
-              <Paper
-                sx={{
-                  p: 4,
-                  mb: 3,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 2,
-                }}
-              >
+              {/* Section 1 & 2 */}
+              <div className="card-base" style={{ marginBottom: '24px' }}>
                 <SectionBlock section={post.section_1} />
                 <SectionBlock section={post.section_2} />
-              </Paper>
+              </div>
 
               {/* Salary Table */}
               {post.salaries && post.salaries.length > 0 && (
-                <Paper
-                  sx={{
-                    p: 4,
-                    mb: 3,
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: 2,
-                  }}
-                >
-                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
-                    Estimasi Gaji
-                  </Typography>
-                  <TableContainer>
-                    <Table size="small">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell
-                            sx={{ fontWeight: 700, color: "text.primary" }}
-                          >
-                            Posisi
-                          </TableCell>
-                          <TableCell
-                            sx={{ fontWeight: 700, color: "text.primary" }}
-                          >
-                            Gaji
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
+                <div className="card-base" style={{ marginBottom: '24px' }}>
+                  <h2 className="heading-5" style={{ marginBottom: '16px' }}>Estimasi Gaji</h2>
+                  <div className="table-container">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th>Posisi</th>
+                          <th>Gaji</th>
+                        </tr>
+                      </thead>
+                      <tbody>
                         {post.salaries.map((s, i) => (
-                          <TableRow key={i}>
-                            <TableCell sx={{ color: "text.secondary" }}>
-                              {s.position}
-                            </TableCell>
-                            <TableCell
-                              sx={{ color: "success.main", fontWeight: 600 }}
-                            >
-                              {s.salary}
-                            </TableCell>
-                          </TableRow>
+                          <tr key={i}>
+                            <td>{s.position}</td>
+                            <td style={{ color: 'var(--success)', fontWeight: 600 }}>{s.salary}</td>
+                          </tr>
                         ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Paper>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               )}
 
-              {/* Section 3 & 4 (After salary, before positions) */}
-              <Paper
-                sx={{
-                  p: 4,
-                  mb: 3,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 2,
-                }}
-              >
+              {/* Section 3 & 4 */}
+              <div className="card-base" style={{ marginBottom: '24px' }}>
                 <SectionBlock section={post.section_3} />
                 <SectionBlock section={post.section_4} />
-              </Paper>
+              </div>
 
               {/* Requirements */}
               {post.jobs.map((job, jobIdx) => (
-                <Paper
-                  key={jobIdx}
-                  sx={{
-                    p: 4,
-                    mb: 3,
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: 2,
-                  }}
-                >
-                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+                <div className="card-base" key={jobIdx} style={{ marginBottom: '24px' }}>
+                  <h2 className="heading-5" style={{ marginBottom: '16px' }}>
                     Persyaratan — {job.position}
-                  </Typography>
-                  <List disablePadding>
+                  </h2>
+                  <div className="req-list">
                     {job.requirements.map((req, reqIdx) => (
-                      <ListItem key={reqIdx} sx={{ px: 0, py: 0.75 }}>
-                        <ListItemIcon sx={{ minWidth: 36 }}>
-                          <CheckCircleOutlineIcon
-                            sx={{ fontSize: 20, color: "success.main" }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={req}
-                          slotProps={{
-                            primary: {
-                              variant: "body1",
-                              sx: { color: "text.secondary" },
-                            },
-                          }}
-                        />
-                      </ListItem>
+                      <div key={reqIdx} className="req-item">
+                        <FontAwesomeIcon icon={faCircleCheck} className="req-icon" />
+                        <span>{parseBoldText(req)}</span>
+                      </div>
                     ))}
-                  </List>
-                </Paper>
+                  </div>
+                </div>
               ))}
 
-              {/* Section 5 (Closing / CTA) */}
+              {/* Section 5 */}
               {post.section_5 && post.section_5.paragraphs.length > 0 && (
-                <Paper
-                  sx={{
-                    p: 4,
-                    mb: 3,
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: 2,
-                  }}
-                >
+                <div className="card-base" style={{ marginBottom: '24px' }}>
                   <SectionBlock section={post.section_5} />
-                </Paper>
+                </div>
               )}
 
               {/* Apply Buttons */}
-              <Paper
-                sx={{
-                  p: 4,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 2,
-                }}
-              >
-                <Alert severity="warning" sx={{ mb: 4, borderRadius: 2 }}>
-                  <AlertTitle sx={{ fontWeight: 700 }}>Hati-Hati Penipuan!</AlertTitle>
-                  NyariKerja.online atau perusahaan manapun <strong>tidak pernah memungut biaya apapun</strong> (seperti biaya tiket, pelatihan, atau admin) dalam proses rekrutmen. Laporkan lowongan ini jika meminta imbalan uang.
-                </Alert>
+              <div className="card-base">
+                <div className="alert alert-warning" style={{ marginBottom: '24px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                    <FontAwesomeIcon icon={faShieldHalved} style={{ width: 16, height: 16 }} />
+                    <span className="alert-title">Hati-Hati Penipuan!</span>
+                  </div>
+                  NyariKerja.online atau perusahaan manapun <strong>tidak pernah memungut biaya apapun</strong> (seperti biaya tiket, pelatihan, atau admin) dalam proses rekrutmen.
+                </div>
 
-                <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
-                  Cara Melamar
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary", mb: 3 }}
-                >
+                <h2 className="heading-5" style={{ marginBottom: '8px' }}>Cara Melamar</h2>
+                <p className="body-sm" style={{ color: 'var(--slate)', marginBottom: '24px' }}>
                   {post.apply_links.length > 1
                     ? `Terdapat ${post.apply_links.length} cara untuk melamar ke posisi ini. Pilih salah satu yang paling sesuai.`
-                    : "Klik tombol di bawah untuk melamar posisi ini."}
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                    : 'Klik tombol di bawah untuk melamar posisi ini.'}
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {post.apply_links.map((link, idx) => {
-                    // --- Smart label detection ---
-                    let buttonText = link.method || "";
-
-                    // Bersihkan nama PT setelah tanda "|"
-                    if (buttonText.includes("|")) {
-                      buttonText = buttonText.split("|")[0].trim();
+                    let buttonText = link.method || '';
+                    if (buttonText.includes('|')) {
+                      buttonText = buttonText.split('|')[0].trim();
                     }
 
-                    // Detect link type
-                    const isEmail = link.url.startsWith("mailto:");
-                    const isWhatsApp =
-                      link.url.includes("wa.me") ||
-                      link.url.includes("whatsapp.com");
-                    const isForm =
-                      link.url.includes("forms.gle") ||
-                      link.url.includes("docs.google.com/forms");
+                    const isEmail = link.url.startsWith('mailto:');
+                    const isWhatsApp = link.url.includes('wa.me') || link.url.includes('whatsapp.com');
+                    const isForm = link.url.includes('forms.gle') || link.url.includes('docs.google.com/forms');
 
-                    // Fallback label jika method generic
-                    if (
-                      !buttonText ||
-                      buttonText.toLowerCase() === "apply" ||
-                      buttonText.toLowerCase() === "apply via email"
-                    ) {
+                    if (!buttonText || buttonText.toLowerCase() === 'apply' || buttonText.toLowerCase() === 'apply via email') {
                       if (isEmail) {
-                        const email = link.url.replace("mailto:", "");
+                        const email = link.url.replace('mailto:', '');
                         buttonText = `Kirim Lamaran ke ${email}`;
-                      } else if (isWhatsApp) buttonText = "Lamar via WhatsApp";
-                      else if (isForm) buttonText = "Isi Form Pendaftaran";
-                      else buttonText = "Lamar Sekarang";
+                      } else if (isWhatsApp) buttonText = 'Lamar via WhatsApp';
+                      else if (isForm) buttonText = 'Isi Form Pendaftaran';
+                      else buttonText = 'Lamar Sekarang';
                     }
 
-                    // Pick icon
-                    const icon = isEmail ? (
-                      <EmailIcon />
-                    ) : isWhatsApp ? (
-                      <SendIcon />
-                    ) : (
-                      <SendIcon />
-                    );
-
+                    const icon = isEmail ? faEnvelope : faPaperPlane;
                     const showNumber = post.apply_links.length > 1;
 
                     return (
-                      <Box
-                        key={idx}
-                        sx={{
-                          p: 2.5,
-                          borderRadius: 2,
-                          border: "1px solid",
-                          borderColor: alpha("#6C63FF", 0.2),
-                          background: alpha("#6C63FF", 0.04),
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 1.5,
-                        }}
-                      >
+                      <div key={idx} style={{
+                        padding: '20px',
+                        borderRadius: 'var(--rounded-md)',
+                        border: '1px solid rgba(86, 69, 212, 0.15)',
+                        background: 'rgba(86, 69, 212, 0.03)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '12px',
+                      }}>
                         {showNumber && (
-                          <Typography
-                            variant="caption"
-                            sx={{
-                              color: "primary.main",
-                              fontWeight: 700,
-                              textTransform: "uppercase",
-                              letterSpacing: "0.05em",
-                            }}
-                          >
+                          <span className="caption-bold" style={{ color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                             Opsi {idx + 1} dari {post.apply_links.length}
-                          </Typography>
+                          </span>
                         )}
-                        <Button
-                          variant="contained"
-                          fullWidth
+                        <a
                           href={link.url}
-                          target={
-                            link.url.startsWith("http") ? "_blank" : undefined
-                          }
-                          rel={
-                            link.url.startsWith("http")
-                              ? "noopener noreferrer"
-                              : undefined
-                          }
-                          startIcon={icon}
-                          endIcon={
-                            link.url.startsWith("http") ? (
-                              <OpenInNewIcon sx={{ fontSize: 16 }} />
-                            ) : null
-                          }
-                          sx={{
-                            borderRadius: 2,
-                            py: 1.5,
-                            px: 3,
-                            fontWeight: 600,
-                            textTransform: "none",
-                            fontSize: "0.95rem",
-                            whiteSpace: "normal",
-                            wordBreak: "break-word",
-                            textAlign: "left",
-                            lineHeight: 1.4,
-                          }}
+                          target={link.url.startsWith('http') ? '_blank' : undefined}
+                          rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          className="btn btn-primary btn-lg"
+                          style={{ textAlign: 'left', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: 1.4 }}
                         >
+                          <FontAwesomeIcon icon={icon} style={{ width: 16, height: 16 }} />
                           {buttonText}
-                        </Button>
-                      </Box>
+                          {link.url.startsWith('http') && (
+                            <FontAwesomeIcon icon={faUpRightFromSquare} style={{ width: 12, height: 12, marginLeft: 'auto' }} />
+                          )}
+                        </a>
+                      </div>
                     );
                   })}
-                </Box>
-              </Paper>
-            </Grid>
+                </div>
+              </div>
+            </div>
 
             {/* Sidebar */}
-            <Grid size={{ xs: 12, md: 4 }}>
+            <div style={{ flex: '0 0 340px', maxWidth: '100%' }}>
               {/* Share */}
-              <Paper
-                sx={{
-                  p: 3,
-                  mb: 3,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 2,
-                }}
-              >
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-                  Bagikan Lowongan
-                </Typography>
-                <Box sx={{ display: "flex", gap: 1 }}>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ShareIcon />}
+              <div className="sidebar-card">
+                <h3 className="sidebar-card-title">Bagikan Lowongan</h3>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <a
                     href={`https://wa.me/?text=${encodeURIComponent(`Lowongan ${mainPosition} di ${post.company} — https://nyarikerja.online/lowongan/${slug}`)}`}
                     target="_blank"
-                    sx={{
-                      borderRadius: 2,
-                      borderColor: alpha("#FFFFFF", 0.12),
-                      color: "text.secondary",
-                    }}
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary btn-sm"
                   >
+                    <FontAwesomeIcon icon={faWhatsapp} style={{ width: 14, height: 14 }} />
                     WhatsApp
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<ShareIcon />}
+                  </a>
+                  <a
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Lowongan ${mainPosition} di ${post.company}`)}&url=${encodeURIComponent(`https://nyarikerja.online/lowongan/${slug}`)}`}
                     target="_blank"
-                    sx={{
-                      borderRadius: 2,
-                      borderColor: alpha("#FFFFFF", 0.12),
-                      color: "text.secondary",
-                    }}
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary btn-sm"
                   >
+                    <FontAwesomeIcon icon={faTwitter} style={{ width: 14, height: 14 }} />
                     Twitter
-                  </Button>
-                </Box>
-              </Paper>
+                  </a>
+                </div>
+              </div>
 
               {/* Company Info */}
-              <Paper
-                sx={{
-                  p: 3,
-                  mb: 3,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  borderRadius: 2,
-                }}
-              >
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-                  Tentang Perusahaan
-                </Typography>
-                <Divider sx={{ mb: 2 }} />
-                <Box
-                  sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}
-                >
-                  <Box>
-                    <Typography
-                      variant="caption"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      Nama Perusahaan
-                    </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {post.company}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      variant="caption"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      Lokasi
-                    </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {post.location}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography
-                      variant="caption"
-                      sx={{ color: "text.secondary" }}
-                    >
-                      Kategori
-                    </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {post.category}
-                    </Typography>
-                  </Box>
+              <div className="sidebar-card">
+                <h3 className="sidebar-card-title">Tentang Perusahaan</h3>
+                <hr className="divider" style={{ margin: '12px 0 16px' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div>
+                    <span className="caption" style={{ color: 'var(--steel)' }}>Nama Perusahaan</span>
+                    <p className="body-sm-medium">{post.company}</p>
+                  </div>
+                  <div>
+                    <span className="caption" style={{ color: 'var(--steel)' }}>Lokasi</span>
+                    <p className="body-sm-medium">{post.location}</p>
+                  </div>
+                  <div>
+                    <span className="caption" style={{ color: 'var(--steel)' }}>Kategori</span>
+                    <p className="body-sm-medium">{post.category}</p>
+                  </div>
                   {post.education && (
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.75 }}
-                    >
-                      <SchoolOutlinedIcon
-                        sx={{ fontSize: 16, color: "text.secondary" }}
-                      />
-                      <Box>
-                        <Typography
-                          variant="caption"
-                          sx={{ color: "text.secondary" }}
-                        >
-                          Pendidikan
-                        </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                          {post.education}
-                        </Typography>
-                      </Box>
-                    </Box>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <FontAwesomeIcon icon={faGraduationCap} style={{ width: 14, height: 14, color: 'var(--steel)' }} />
+                      <div>
+                        <span className="caption" style={{ color: 'var(--steel)' }}>Pendidikan</span>
+                        <p className="body-sm-medium">{post.education}</p>
+                      </div>
+                    </div>
                   )}
                   {post.job_type && (
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.75 }}
-                    >
-                      <WorkOutlineIcon
-                        sx={{ fontSize: 16, color: "text.secondary" }}
-                      />
-                      <Box>
-                        <Typography
-                          variant="caption"
-                          sx={{ color: "text.secondary" }}
-                        >
-                          Tipe Pekerjaan
-                        </Typography>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                          {post.job_type}
-                        </Typography>
-                      </Box>
-                    </Box>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <FontAwesomeIcon icon={faBriefcase} style={{ width: 14, height: 14, color: 'var(--steel)' }} />
+                      <div>
+                        <span className="caption" style={{ color: 'var(--steel)' }}>Tipe Pekerjaan</span>
+                        <p className="body-sm-medium">{post.job_type}</p>
+                      </div>
+                    </div>
                   )}
-                </Box>
-              </Paper>
+                </div>
+              </div>
 
               {/* SEO Tags */}
               {post.seo?.tags && post.seo.tags.length > 0 && (
-                <Paper
-                  sx={{
-                    p: 3,
-                    mb: 3,
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: 2,
-                  }}
-                >
-                  <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-                    Tags
-                  </Typography>
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                <div className="sidebar-card">
+                  <h3 className="sidebar-card-title">Tags</h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                     {post.seo.tags.map((tag, i) => (
-                      <Chip
+                      <Link
                         key={i}
-                        label={tag}
-                        size="small"
-                        variant="outlined"
-                        component={Link}
                         href={`/cari?q=${encodeURIComponent(tag)}`}
-                        clickable
-                        sx={{
-                          borderColor: alpha("#FFFFFF", 0.1),
-                          color: "text.secondary",
-                          "&:hover": {
-                            borderColor: "primary.main",
-                            color: "primary.main",
-                          },
-                        }}
-                      />
+                        className="pill-tab"
+                        style={{ fontSize: '13px', padding: '4px 12px' }}
+                      >
+                        {tag}
+                      </Link>
                     ))}
-                  </Box>
-                </Paper>
+                  </div>
+                </div>
               )}
 
               {/* Related Jobs */}
               {relatedPosts.length > 0 && (
-                <Box sx={{ mt: 4 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-                    Lowongan Serupa
-                  </Typography>
-                  <Box
-                    sx={{ display: "flex", flexDirection: "column", gap: 3 }}
-                  >
+                <div style={{ marginTop: '24px' }}>
+                  <h3 className="heading-5" style={{ marginBottom: '16px' }}>Lowongan Serupa</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {relatedPosts.map((rp) => (
                       <JobCard key={rp._id} post={rp} />
                     ))}
-                  </Box>
-                </Box>
+                  </div>
+                </div>
               )}
 
-              {/* Recommended Jobs */}
-              {recommendedPosts.length > 0 && (
-                <Box sx={{ mt: 5 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-                    Rekomendasi Lowongan
-                  </Typography>
-                  <Box
-                    sx={{ display: "flex", flexDirection: "column", gap: 3 }}
-                  >
-                    {recommendedPosts.map((rp) => (
-                      <JobCard key={rp._id} post={rp} />
-                    ))}
-                  </Box>
-                </Box>
-              )}
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

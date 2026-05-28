@@ -1,59 +1,104 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Box, InputBase, alpha } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import { useRouter } from 'next/navigation';
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMagnifyingGlass,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface SearchInputProps {
   initialQuery: string;
 }
 
 export default function SearchInput({ initialQuery }: SearchInputProps) {
-  const [localQuery, setLocalQuery] = React.useState(initialQuery);
+  const [localQuery, setLocalQuery] = useState(initialQuery);
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (localQuery.trim()) {
-      router.push(`/cari?q=${encodeURIComponent(localQuery.trim())}`);
+    if (localQuery.trim() && localQuery.trim() !== initialQuery) {
+      startTransition(() => {
+        router.push(`/cari?q=${encodeURIComponent(localQuery.trim())}`);
+      });
+    } else if (localQuery.trim() === initialQuery) {
+      // Already on this query, do nothing or force refresh if needed
     }
   };
 
   return (
-    <Box
-      component="form"
+    <form
+      className="search-form-layout"
       onSubmit={handleSearch}
-      sx={{
-        maxWidth: 600,
-        mx: 'auto',
-        mb: 5,
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: alpha('#FFFFFF', 0.06),
-        border: '1px solid',
-        borderColor: alpha('#FFFFFF', 0.1),
-        borderRadius: 4,
-        px: 3,
-        py: 1.5,
-        transition: 'all 0.3s ease',
-        '&:focus-within': {
-          borderColor: alpha('#6C63FF', 0.5),
-          boxShadow: `0 0 20px ${alpha('#6C63FF', 0.1)}`,
-        },
+      style={{
+        maxWidth: "600px",
+        margin: "0 auto 40px",
       }}
     >
-      <SearchIcon sx={{ color: 'text.secondary', mr: 2 }} />
-      <InputBase
-        fullWidth
-        placeholder="Ketik posisi, perusahaan, atau lokasi..."
-        value={localQuery}
-        onChange={(e) => setLocalQuery(e.target.value)}
-        sx={{
-          color: 'text.primary',
-          fontSize: '1.05rem',
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flex: 1,
+          border: "1px solid var(--hairline-strong)",
+          borderRadius: "var(--rounded-md)",
+          padding: "12px 16px",
+          background: "var(--canvas)",
+          transition: "all 180ms",
+          opacity: isPending ? 0.6 : 1,
         }}
-      />
-    </Box>
+      >
+        <FontAwesomeIcon
+          icon={faMagnifyingGlass}
+          style={{
+            width: 16,
+            height: 16,
+            color: "var(--steel)",
+            marginRight: "12px",
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Ketik posisi, perusahaan, atau lokasi..."
+          value={localQuery}
+          onChange={(e) => setLocalQuery(e.target.value)}
+          disabled={isPending}
+          style={{
+            flex: 1,
+            border: "none",
+            outline: "none",
+            background: "transparent",
+            color: "var(--ink)",
+            fontSize: "16px",
+            lineHeight: 1.55,
+          }}
+        />
+      </div>
+      <button
+        type="submit"
+        className="btn btn-primary"
+        disabled={isPending}
+        style={{
+          height: "48px",
+          padding: "0 24px",
+          opacity: isPending ? 0.8 : 1,
+        }}
+      >
+        {isPending ? (
+          <>
+            <FontAwesomeIcon
+              icon={faSpinner}
+              spin
+              style={{ marginRight: "8px" }}
+            />
+            Mencari
+          </>
+        ) : (
+          "Cari Lowongan"
+        )}
+      </button>
+    </form>
   );
 }
