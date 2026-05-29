@@ -9,6 +9,7 @@ import { faMagnifyingGlass, faBars, faXmark } from '@fortawesome/free-solid-svg-
 
 const navLinks = [
   { label: 'Beranda', href: '/' },
+  { label: 'Lowongan', href: '/lowongan' },
   { label: 'Kategori', href: '/kategori' },
   { label: 'Tentang', href: '/tentang' },
 ];
@@ -176,9 +177,14 @@ export default function Navbar() {
       >
         <div className="mobile-drawer" onClick={(e) => e.stopPropagation()}>
           <div className="mobile-drawer-header">
-            <span style={{ fontWeight: 700, fontSize: '18px', color: 'var(--ink)' }}>
-              Menu
-            </span>
+            <Image
+              src="/logo-nyarikerja.png"
+              alt="NyariKerja"
+              width={100}
+              height={32}
+              style={{ objectFit: 'contain' }}
+              priority
+            />
             <button
               className="btn-icon"
               onClick={() => setMobileOpen(false)}

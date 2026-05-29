@@ -5,11 +5,8 @@ import JobCard from '@/components/JobCard';
 import { JobPost, Category } from '@/lib/types';
 
 interface HomeContentProps {
-  allPosts: JobPost[];
   latestPosts: JobPost[];
   categories: Category[];
-  currentPage?: number;
-  totalPages?: number;
 }
 
 // Assign pastel tints and icons to first 4 categories
@@ -20,7 +17,7 @@ const categoryStyles = [
   { bg: 'var(--tint-peach)', iconColor: '#793400', icon: faStore },
 ];
 
-export default function HomeContent({ allPosts, latestPosts, categories, currentPage = 1, totalPages = 1 }: HomeContentProps) {
+export default function HomeContent({ latestPosts, categories }: HomeContentProps) {
   const targetNames = [
     "Manufaktur & Pabrik",
     "Logistik & Gudang",
@@ -106,7 +103,7 @@ export default function HomeContent({ allPosts, latestPosts, categories, current
                   Kesempatan emas yang baru saja dipublikasikan.
                 </p>
               </div>
-              <Link href="/kategori" className="btn btn-secondary">
+              <Link href="/lowongan" className="btn btn-secondary">
                 Lihat Semua <FontAwesomeIcon icon={faArrowRight} style={{ width: 14, height: 14 }} />
               </Link>
             </div>
@@ -119,48 +116,7 @@ export default function HomeContent({ allPosts, latestPosts, categories, current
           </section>
         )}
 
-        {/* All Jobs */}
-        {allPosts.length > 0 && (
-          <section>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px', marginBottom: '32px' }}>
-              <div>
-                <h2 className="heading-2" style={{ color: 'var(--ink-deep)', marginBottom: '8px' }}>
-                  Semua Lowongan
-                </h2>
-                <p style={{ fontSize: '14px', color: 'var(--slate)' }}>
-                  Lowongan tersedia saat ini
-                </p>
-              </div>
-            </div>
 
-            <div className="grid grid-2">
-              {allPosts.map((post) => (
-                <JobCard key={post._id} post={post} />
-              ))}
-            </div>
-
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '48px' }}>
-                {currentPage > 1 && (
-                  <Link href={`/?page=${currentPage - 1}`} className="btn btn-secondary">
-                    Sebelumnya
-                  </Link>
-                )}
-                
-                <div style={{ display: 'flex', alignItems: 'center', padding: '0 16px', fontWeight: 500, color: 'var(--ink)' }}>
-                  Halaman {currentPage} dari {totalPages}
-                </div>
-
-                {currentPage < totalPages && (
-                  <Link href={`/?page=${currentPage + 1}`} className="btn btn-secondary">
-                    Selanjutnya
-                  </Link>
-                )}
-              </div>
-            )}
-          </section>
-        )}
       </div>
     </div>
   );
