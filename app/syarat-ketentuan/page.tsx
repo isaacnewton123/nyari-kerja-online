@@ -5,6 +5,14 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 export const metadata = {
   title: 'Syarat & Ketentuan - NyariKerja.online',
   description: 'Syarat dan Ketentuan Layanan NyariKerja.online',
+  openGraph: {
+    title: 'Syarat & Ketentuan - NyariKerja.online',
+    description: 'Syarat dan Ketentuan Layanan NyariKerja.online',
+  },
+  twitter: {
+    title: 'Syarat & Ketentuan - NyariKerja.online',
+    description: 'Syarat dan Ketentuan Layanan NyariKerja.online',
+  },
 };
 
 export default function SyaratKetentuanPage() {

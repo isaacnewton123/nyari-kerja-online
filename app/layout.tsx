@@ -44,22 +44,12 @@ export const metadata: Metadata = {
     title: 'NyariKerja — Lowongan Kerja Terbaru di Indonesia',
     description:
       'Temukan lowongan kerja terbaru dari perusahaan-perusahaan terbaik di Indonesia.',
-    images: [
-      {
-        url: '/og-image-nyarikerja.png',
-        width: 1200,
-        height: 630,
-        alt: 'NyariKerja — Platform Lowongan Kerja Indonesia',
-        type: 'image/png',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'NyariKerja — Lowongan Kerja Terbaru di Indonesia',
     description:
       'Temukan lowongan kerja terbaru dari perusahaan-perusahaan terbaik di Indonesia.',
-    images: ['/og-image-nyarikerja.png'],
   },
   robots: {
     index: true,

@@ -5,6 +5,14 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 export const metadata = {
   title: 'Kebijakan Privasi - NyariKerja.online',
   description: 'Kebijakan Privasi dan Pengumpulan Data di NyariKerja.online',
+  openGraph: {
+    title: 'Kebijakan Privasi - NyariKerja.online',
+    description: 'Kebijakan Privasi dan Pengumpulan Data di NyariKerja.online',
+  },
+  twitter: {
+    title: 'Kebijakan Privasi - NyariKerja.online',
+    description: 'Kebijakan Privasi dan Pengumpulan Data di NyariKerja.online',
+  },
 };
 
 export default function KebijakanPrivasiPage() {
