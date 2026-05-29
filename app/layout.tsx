@@ -1,55 +1,65 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/react';
-import '@/lib/fontawesome';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import './globals.css';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import "@/lib/fontawesome";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import "./globals.css";
 
 const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nyarikerja.online'),
+  metadataBase: new URL("https://nyarikerja.online"),
   title: {
-    default: 'NyariKerja — Lowongan Kerja Terbaru di Indonesia',
-    template: '%s | NyariKerja',
+    default: "NyariKerja — Lowongan Kerja Terbaru di Indonesia",
+    template: "%s | NyariKerja",
   },
   description:
-    'Temukan lowongan kerja terbaru dari perusahaan-perusahaan terbaik di Indonesia. Platform pencarian kerja terpercaya untuk karir impianmu.',
+    "Temukan lowongan kerja terbaru dari perusahaan-perusahaan terbaik di Indonesia. Platform pencarian kerja terpercaya untuk karir impianmu.",
   keywords: [
-    'lowongan kerja',
-    'cari kerja',
-    'loker',
-    'karir',
-    'pekerjaan',
-    'Indonesia',
-    'job vacancy',
-    'nyarikerja',
-    'lowongan kerja terbaru',
-    'info loker',
-    'cari lowongan',
+    "lowongan kerja",
+    "cari kerja",
+    "loker",
+    "karir",
+    "pekerjaan",
+    "Indonesia",
+    "job vacancy",
+    "nyarikerja",
+    "lowongan kerja terbaru",
+    "info loker",
+    "cari lowongan",
   ],
-  authors: [{ name: 'NyariKerja' }],
-  creator: 'NyariKerja',
-  publisher: 'NyariKerja',
+  authors: [{ name: "NyariKerja" }],
+  creator: "NyariKerja",
+  publisher: "NyariKerja",
   openGraph: {
-    type: 'website',
-    locale: 'id_ID',
-    url: 'https://nyarikerja.online',
-    siteName: 'NyariKerja',
-    title: 'NyariKerja — Lowongan Kerja Terbaru di Indonesia',
+    type: "website",
+    locale: "id_ID",
+    url: "https://nyarikerja.online",
+    siteName: "NyariKerja",
+    title: "NyariKerja — Lowongan Kerja Terbaru di Indonesia",
     description:
-      'Temukan lowongan kerja terbaru dari perusahaan-perusahaan terbaik di Indonesia.',
+      "Temukan lowongan kerja terbaru dari perusahaan-perusahaan terbaik di Indonesia.",
+    images: [
+      {
+        url: "/og-image-nyarikerja.webp",
+        width: 1200,
+        height: 630,
+        alt: "NyariKerja — Platform Lowongan Kerja Indonesia",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'NyariKerja — Lowongan Kerja Terbaru di Indonesia',
+    card: "summary_large_image",
+    title: "NyariKerja — Lowongan Kerja Terbaru di Indonesia",
     description:
-      'Temukan lowongan kerja terbaru dari perusahaan-perusahaan terbaik di Indonesia.',
+      "Temukan lowongan kerja terbaru dari perusahaan-perusahaan terbaik di Indonesia.",
+    images: ["/og-image-nyarikerja.webp"],
   },
   robots: {
     index: true,
@@ -57,22 +67,22 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   appleWebApp: {
-    title: 'Nyari Kerja',
+    title: "Nyari Kerja",
   },
   verification: {
     // Tambahkan Google Search Console verification code nanti
     // google: 'your-verification-code',
   },
   alternates: {
-    canonical: 'https://nyarikerja.online',
+    canonical: "https://nyarikerja.online",
   },
-  category: 'Job Board',
+  category: "Job Board",
 };
 
 export default function RootLayout({
@@ -83,11 +93,15 @@ export default function RootLayout({
   return (
     <html lang="id" className={inter.variable}>
       <body>
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+          }}
+        >
           <Navbar />
-          <main style={{ flex: 1 }}>
-            {children}
-          </main>
+          <main style={{ flex: 1 }}>{children}</main>
           <Footer />
         </div>
         <Analytics />

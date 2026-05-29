@@ -8,16 +8,6 @@ export const metadata: Metadata = {
   title: 'Kategori Lowongan Kerja',
   description:
     'Jelajahi kategori lowongan kerja di NyariKerja. Temukan posisi sesuai bidang keahlianmu.',
-  openGraph: {
-    title: 'Kategori Lowongan Kerja',
-    description:
-      'Jelajahi kategori lowongan kerja di NyariKerja. Temukan posisi sesuai bidang keahlianmu.',
-  },
-  twitter: {
-    title: 'Kategori Lowongan Kerja',
-    description:
-      'Jelajahi kategori lowongan kerja di NyariKerja. Temukan posisi sesuai bidang keahlianmu.',
-  },
   alternates: {
     canonical: 'https://nyarikerja.online/kategori',
   },
