@@ -21,29 +21,14 @@ import JobCard from "@/components/JobCard";
 import JsonLd from "@/components/JsonLd";
 import { formatDate, getTimeAgo } from "@/lib/utils";
 import { JobPost, Section } from "@/lib/types";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface JobDetailContentProps {
   post: JobPost;
   relatedPosts: JobPost[];
   recommendedPosts: JobPost[];
   slug: string;
-}
-
-function parseBoldText(text: string) {
-  if (!text) return null;
-  if (!text.includes("**")) return text;
-
-  const parts = text.split("**");
-  return parts.map((part, idx) => {
-    if (idx % 2 === 1) {
-      return (
-        <strong key={idx} style={{ fontWeight: 600, color: "var(--ink)" }}>
-          {part}
-        </strong>
-      );
-    }
-    return <span key={idx}>{part}</span>;
-  });
 }
 
 function SectionBlock({ section }: { section: Section }) {
@@ -57,17 +42,52 @@ function SectionBlock({ section }: { section: Section }) {
         </h3>
       )}
       {section.paragraphs.map((p, i) => (
-        <p
+        <ReactMarkdown
           key={i}
-          style={{
-            color: "var(--slate)",
-            lineHeight: 1.8,
-            marginBottom: "12px",
-            fontSize: "15px",
+          remarkPlugins={[remarkGfm]}
+          components={{
+            p: ({ ...props }) => (
+              <p
+                style={{
+                  color: "var(--slate)",
+                  lineHeight: 1.8,
+                  marginBottom: "12px",
+                  fontSize: "15px",
+                }}
+                {...props}
+              />
+            ),
+            li: ({ ...props }) => (
+              <li
+                style={{
+                  color: "var(--slate)",
+                  lineHeight: 1.8,
+                  fontSize: "15px",
+                }}
+                {...props}
+              />
+            ),
+            ul: ({ ...props }) => (
+              <ul
+                style={{
+                  color: "var(--slate)",
+                  lineHeight: 1.8,
+                  fontSize: "15px",
+                  paddingLeft: "20px",
+                  marginBottom: "12px",
+                }}
+                {...props}
+              />
+            ),
+            table: ({ ...props }) => (
+              <div className="table-container" style={{ marginBottom: "16px" }}>
+                <table className="table" {...props} />
+              </div>
+            ),
           }}
         >
-          {parseBoldText(p)}
-        </p>
+          {p}
+        </ReactMarkdown>
       ))}
     </div>
   );
@@ -308,7 +328,14 @@ export default function JobDetailContent({
                           icon={faCircleCheck}
                           className="req-icon"
                         />
-                        <span>{parseBoldText(req)}</span>
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            p: ({ ...props }) => <span {...props} />,
+                          }}
+                        >
+                          {req}
+                        </ReactMarkdown>
                       </div>
                     ))}
                   </div>
