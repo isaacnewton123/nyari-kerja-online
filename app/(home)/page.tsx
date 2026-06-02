@@ -1,16 +1,12 @@
-import HeroSection from '@/components/HeroSection';
-import HomeContent from '@/components/HomeContent';
-import JsonLd from '@/components/JsonLd';
-import { getLatestPosts, getCategories, getStats } from '@/lib/data';
+import HeroSection from "@/components/HeroSection";
+import HomeContent from "@/components/HomeContent";
+import JsonLd from "@/components/JsonLd";
+import { getLatestPosts, getCategories, getStats } from "@/lib/data";
 
 // Revalidate setiap 5 menit — hemat quota Vercel free tier
 export const revalidate = 300;
 
-type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-export default async function HomePage(props: Props) {
+export default async function HomePage() {
   const [latestPosts, categories, stats] = await Promise.all([
     getLatestPosts(6),
     getCategories(),
@@ -18,19 +14,19 @@ export default async function HomePage(props: Props) {
   ]);
 
   const websiteJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'NyariKerja',
-    url: 'https://nyarikerja.online',
-    description:
-      'Platform pencarian lowongan kerja terpercaya di Indonesia.',
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "NyariKerja",
+    url: "https://www.nyarikerja.online",
+    description: "Platform pencarian lowongan kerja terpercaya di Indonesia.",
     potentialAction: {
-      '@type': 'SearchAction',
+      "@type": "SearchAction",
       target: {
-        '@type': 'EntryPoint',
-        urlTemplate: 'https://nyarikerja.online/cari?q={search_term_string}',
+        "@type": "EntryPoint",
+        urlTemplate:
+          "https://www.nyarikerja.online/cari?q={search_term_string}",
       },
-      'query-input': 'required name=search_term_string',
+      "query-input": "required name=search_term_string",
     },
   };
 
@@ -38,10 +34,7 @@ export default async function HomePage(props: Props) {
     <>
       <JsonLd data={websiteJsonLd} />
       <HeroSection stats={stats} />
-      <HomeContent
-        latestPosts={latestPosts}
-        categories={categories}
-      />
+      <HomeContent latestPosts={latestPosts} categories={categories} />
     </>
   );
 }

@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nyarikerja.online"),
+  metadataBase: new URL("https://www.nyarikerja.online"),
   title: {
     default: "NyariKerja — Lowongan Kerja Terbaru di Indonesia",
     template: "%s | NyariKerja",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "id_ID",
-    url: "https://nyarikerja.online",
+    url: "https://www.nyarikerja.online",
     siteName: "NyariKerja",
     title: "NyariKerja — Lowongan Kerja Terbaru di Indonesia",
     description:
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     // google: 'your-verification-code',
   },
   alternates: {
-    canonical: "https://nyarikerja.online",
+    canonical: "https://www.nyarikerja.online",
   },
   category: "Job Board",
 };

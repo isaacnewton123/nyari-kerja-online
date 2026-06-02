@@ -2,7 +2,7 @@
 
 Platform lowongan kerja modern, cepat, dan SEO-optimized untuk Indonesia. Dibangun dengan **Next.js 16 App Router**, **TypeScript**, dan **Vanilla CSS** dengan design-token system kustom.
 
-> **Live:** [https://nyarikerja.online](https://nyarikerja.online)
+> **Live:** [https://www.nyarikerja.online](https://www.nyarikerja.online)
 
 ---
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     'Jelajahi kategori lowongan kerja di NyariKerja. Temukan posisi sesuai bidang keahlianmu.',
   alternates: {
-    canonical: 'https://nyarikerja.online/kategori',
+    canonical: 'https://www.nyarikerja.online/kategori',
   },
 };
 

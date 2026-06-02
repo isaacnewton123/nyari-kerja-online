@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getAllSlugs, getCategories } from '@/lib/data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://nyarikerja.online';
+  const baseUrl = 'https://www.nyarikerja.online';
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

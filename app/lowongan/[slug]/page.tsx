@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${title} | NyariKerja`,
       description,
       type: 'article',
-      url: `https://nyarikerja.online/lowongan/${slug}`,
+      url: `https://www.nyarikerja.online/lowongan/${slug}`,
       images: post.image_url ? [{ url: post.image_url }] : undefined,
     },
     twitter: {
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: post.image_url ? [post.image_url] : undefined,
     },
     alternates: {
-      canonical: `https://nyarikerja.online/lowongan/${slug}`,
+      canonical: `https://www.nyarikerja.online/lowongan/${slug}`,
     },
   };
 }

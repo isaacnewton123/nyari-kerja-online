@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `Lowongan ${cat.name}`,
     description: `Daftar lowongan kerja di bidang ${cat.name}. Temukan posisi terbaik di NyariKerja.`,
     alternates: {
-      canonical: `https://nyarikerja.online/kategori/${slug}`,
+      canonical: `https://www.nyarikerja.online/kategori/${slug}`,
     },
   };
 }

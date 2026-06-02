@@ -496,7 +496,7 @@ export default function JobDetailContent({
                 <h3 className="sidebar-card-title">Bagikan Lowongan</h3>
                 <div style={{ display: "flex", gap: "8px" }}>
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`Lowongan ${mainPosition} di ${post.company} — https://nyarikerja.online/lowongan/${slug}`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(`Lowongan ${mainPosition} di ${post.company} — https://www.nyarikerja.online/lowongan/${slug}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-secondary btn-sm"
@@ -508,7 +508,7 @@ export default function JobDetailContent({
                     WhatsApp
                   </a>
                   <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Lowongan ${mainPosition} di ${post.company}`)}&url=${encodeURIComponent(`https://nyarikerja.online/lowongan/${slug}`)}`}
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Lowongan ${mainPosition} di ${post.company}`)}&url=${encodeURIComponent(`https://www.nyarikerja.online/lowongan/${slug}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-secondary btn-sm"
