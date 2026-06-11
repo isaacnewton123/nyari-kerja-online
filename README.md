@@ -28,7 +28,7 @@ Platform lowongan kerja modern, cepat, dan SEO-optimized untuk Indonesia. Dibang
 nyarikerja.online-frontend/
 ├── app/
 │   ├── (home)/
-│   │   ├── page.tsx              # Homepage (SSR, revalidate 5 min)
+│   │   ├── page.tsx              # Homepage (SSR, revalidate 1 hour)
 │   │   └── loading.tsx           # Skeleton loading homepage
 │   ├── lowongan/
 │   │   ├── page.tsx              # Daftar semua lowongan (paginated)

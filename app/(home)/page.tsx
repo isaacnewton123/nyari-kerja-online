@@ -3,8 +3,8 @@ import HomeContent from "@/components/HomeContent";
 import JsonLd from "@/components/JsonLd";
 import { getLatestPosts, getCategories, getStats } from "@/lib/data";
 
-// Revalidate setiap 5 menit — hemat quota Vercel free tier
-export const revalidate = 300;
+// Revalidate setiap 1 jam — hemat quota Vercel free tier
+export const revalidate = 3600;
 
 export default async function HomePage() {
   const [latestPosts, categories, stats] = await Promise.all([

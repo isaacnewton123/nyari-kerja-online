@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getCategories } from '@/lib/data';
 import CategoriesContent from './CategoriesContent';
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Kategori Lowongan Kerja',

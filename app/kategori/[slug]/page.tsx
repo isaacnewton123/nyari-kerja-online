@@ -4,7 +4,7 @@ import { getCategories, getCategoryBySlug, getPostsByCategory } from '@/lib/data
 import CategoryDetailContent from './CategoryDetailContent';
 
 export const dynamicParams = true;
-export const revalidate = 300;
+export const revalidate = 3600;
 
 interface PageProps {
   params: Promise<{ slug: string }>;

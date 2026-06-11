@@ -5,8 +5,8 @@ import JobDetailContent from './JobDetailContent';
 
 // Halaman baru yang belum di-build akan otomatis di-render on-demand
 export const dynamicParams = true;
-// Cache halaman selama 5 menit — hemat quota Vercel free tier
-export const revalidate = 300;
+// Cache halaman selama 24 jam — hemat quota Vercel free tier
+export const revalidate = 86400;
 
 interface PageProps {
   params: Promise<{ slug: string }>;

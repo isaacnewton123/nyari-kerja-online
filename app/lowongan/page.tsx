@@ -2,7 +2,7 @@ import Link from 'next/link';
 import JobCard from '@/components/JobCard';
 import { getPaginatedPosts } from '@/lib/data';
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
